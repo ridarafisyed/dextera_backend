@@ -1,5 +1,3 @@
-
-from django.db import models
 from rest_framework import serializers
 from ..models.profile import Member, Profile, Role, Group
 
@@ -74,13 +72,7 @@ class CreateMamberSerializer(serializers.ModelSerializer):
             "p_email",
             "phone_ext",
         )
-class RoleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Role
-        fields =  (
-            "id",
-            "name"
-        )
+
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
