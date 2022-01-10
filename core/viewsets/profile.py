@@ -2,7 +2,7 @@
 from ..models.profile import Profile, Member, Group
 from rest_framework import  viewsets, permissions
 from django.shortcuts import get_object_or_404
-from ..serializers.profile import ProfileSerializer, CreateMamberSerializer, GroupSerializer, ProfileShortSerializer, RoleSerializer, UserRoleSerializer
+from ..serializers.profile import ProfileSerializer, CreateMamberSerializer, GroupSerializer, ProfileShortSerializer, UserRoleSerializer
 from rest_framework.response import Response
 
 class RoleViewSet(viewsets.ModelViewSet):
