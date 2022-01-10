@@ -1,4 +1,4 @@
-from  accounts.viewsets import RoleViewSet
+from  viewsets.profile import RoleViewSet
 from .viewsets.contact import ContactViewset
 from .viewsets.ledger import NewLedgerTimeViewset
 from .viewsets.profile import ProfileList, CreateMemberViewset, GroupViewset, ProfileRegViewSet, RoleViewset

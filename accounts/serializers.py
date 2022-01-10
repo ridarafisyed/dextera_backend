@@ -7,10 +7,7 @@ from .models import Role
 
 # User Serializer
 
-class UserRoleSerializer(serializers.ModelSerializer):
-  class Meta:
-    models = Role
-    fields = '__all__'
+
 class UserSerializer(serializers.ModelSerializer):
   class Meta:
     model = User

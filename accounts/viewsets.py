@@ -40,16 +40,3 @@ class UserAPI(generics.RetrieveAPIView):
   def get_object(self):
     return self.request.user
 
-
-# Role  
-class RoleViewSet(generics.GenericAPIView):
-    permission_classes = [
-        permissions.IsAuthenticated,
-    ]
-    serializer_class = UserRoleSerializer
-
-    def get_queryset(self):
-        return self.request.user.role.all()
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)

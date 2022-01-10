@@ -3,6 +3,10 @@ from django.db import models
 from rest_framework import serializers
 from ..models.profile import Member, Profile, Role, Group
 
+class UserRoleSerializer(serializers.ModelSerializer):
+  class Meta:
+    models = Role
+    fields = '__all__'
 
 class ProfileShortSerializer(serializers.ModelSerializer):
     class Meta:

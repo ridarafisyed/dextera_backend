@@ -2,10 +2,20 @@
 from ..models.profile import Profile, Member, Group, Role
 from rest_framework import  viewsets, permissions
 from django.shortcuts import get_object_or_404
-from ..serializers.profile import ProfileSerializer, CreateMamberSerializer, GroupSerializer, ProfileShortSerializer, RoleSerializer
+from ..serializers.profile import ProfileSerializer, CreateMamberSerializer, GroupSerializer, ProfileShortSerializer, RoleSerializer, UserRoleSerializer
 from rest_framework.response import Response
 
+class RoleViewSet(viewsets.ModelViewSet):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+    serializer_class = UserRoleSerializer
 
+    def get_queryset(self):
+        return self.request.user.role.all()
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 class ProfileRegViewSet(viewsets.ModelViewSet):
     permission_classes = [
         permissions.IsAuthenticated,
