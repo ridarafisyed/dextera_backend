@@ -1,8 +1,16 @@
+from django.db.models import fields
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
+from .models import Role
+
 # User Serializer
+
+class UserRoleSerializer(serializers.ModelSerializer):
+  class Meta:
+    models = Role
+    fields = '__all__'
 class UserSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
