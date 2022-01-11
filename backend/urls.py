@@ -18,7 +18,7 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
 
-     path('api/', include('accounts.urls')),
-     path('core/',include('core.urls'))
+     path('user/', include('accounts.urls')),
+     path('api/',include('core.urls'))
 ]
 urlpatterns += [re_path(r'^.*', TemplateView.as_view(template_name='index.html'))]
