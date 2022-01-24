@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'test_without_migrations',
     'rest_framework',
     'corsheaders',
     'knox',
