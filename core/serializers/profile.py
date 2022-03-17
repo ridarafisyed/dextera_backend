@@ -50,6 +50,7 @@ class CreateMamberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
         fields =  (
+            "id",
             "f_name",
             "m_name",
             "l_name",
