@@ -61,18 +61,18 @@ class Member(models.Model):
     time_zone= models.CharField(max_length=255, default="", blank=True)
     group= models.CharField(max_length=255, default="", blank=True)
     job_title= models.CharField(max_length=255, default="", blank=True)
-    bar_no= models.IntegerField(default=0, blank=True, null=True)
+    bar_no= models.CharField(max_length=255, default="", blank=True)
     street= models.CharField(max_length=255, default="", blank=True)
     suite= models.CharField(max_length=255, default="", blank=True)
     city= models.CharField(max_length=255, default="", blank=True)
     state= models.CharField(max_length=255, default="", blank=True)
-    zip =models.IntegerField(default=0, blank=True, null=True)
-    ext=  models.IntegerField(default=0, blank=True, null=True)
-    mobile= models.IntegerField(default=0, blank=True, null=True)
-    home= models.IntegerField(default=0, blank=True, null=True)
-    work_no= models.IntegerField(default=0, blank=True, null=True)
+    zip =models.CharField(max_length=255, default="", blank=True)
+    ext=  models.CharField(max_length=255, default="", blank=True)
+    mobile= models.CharField(max_length=255, default="", blank=True)
+    home= models.CharField(max_length=255, default="", blank=True)
+    work_no= models.CharField(max_length=255, default="", blank=True)
     
-    phone_ext= models.IntegerField(default=0, blank=True, null=True)
+    phone_ext= models.CharField(max_length=255, default="", blank=True)
 
 
 class Group(models.Model):

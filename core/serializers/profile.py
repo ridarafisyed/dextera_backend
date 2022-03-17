@@ -53,9 +53,10 @@ class CreateMamberSerializer(serializers.ModelSerializer):
             "f_name",
             "m_name",
             "l_name",
+            "p_email",
+            "role",
             "c_email",
             "rate",
-            "role",
             "time_zone",
             "group",
             "job_title",
@@ -69,7 +70,6 @@ class CreateMamberSerializer(serializers.ModelSerializer):
             "mobile",
             "home",
             "work_no",
-            "p_email",
             "phone_ext",
         )
 

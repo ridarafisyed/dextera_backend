@@ -4,6 +4,7 @@ from .viewsets.ledger import NewLedgerTimeViewset
 from .viewsets.profile import ProfileList, CreateMemberViewset, GroupViewset, ProfileRegViewSet, RoleViewSet
 from .viewsets.matter import MatterList, TaskViewset, TasksViewset, NewMatterViewset, NewTaskViewset
 from .viewsets.category import CategoryViewset, SubCategoryViewset, ClassificationViewset
+from .viewsets.role import RoleViewset, GroupViewset
 
 from rest_framework import routers
 
@@ -16,6 +17,9 @@ router.register('new-matter', NewMatterViewset, "new-matter")
 router.register('category', CategoryViewset, "category")
 router.register('sub-category', SubCategoryViewset, "sub-category")
 router.register('classification', ClassificationViewset, "classification")
+
+router.register('role', RoleViewset, "role")
+router.register('group', GroupViewset, "group")
 
 router.register('tasks', TasksViewset, "tasks" )
 router.register('task', TaskViewset, "task")
