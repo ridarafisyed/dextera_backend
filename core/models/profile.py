@@ -10,7 +10,6 @@ class Role(models.Model):
 
 class Profile(models.Model):
     # profile
-
     f_name= models.CharField(max_length=255, default="", blank=True)
     m_name= models.CharField(max_length=255, default="", blank=True)
     l_name= models.CharField(max_length=255, default="", blank=True)
@@ -80,3 +79,12 @@ class Group(models.Model):
     
     def __str__(self):
         return self.name
+
+
+# class Task(models.Model):
+#     date = models.CharField(max_length=250, unique=True)
+#     time = models.CharField(max_length=250, unique=True)
+#     user = models.CharField(max_length=250, unique=True)
+#     task = models.CharField(max_length=250, unique=True)
+#     status = models.CharField(max_length=250, unique=True)
+
