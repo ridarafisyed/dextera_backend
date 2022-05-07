@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "f10711e56c2a6ce78012",
+    "revision": "c79dcc24d8bd49b2910f",
     "url": "/static/css/main.67f1013d.chunk.css"
   },
   {
-    "revision": "f10711e56c2a6ce78012",
-    "url": "/static/js/main.f10711e5.chunk.js"
+    "revision": "c79dcc24d8bd49b2910f",
+    "url": "/static/js/main.c79dcc24.chunk.js"
   },
   {
     "revision": "7383458dda57a92331c0",
@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/static/media/signup_light.181ee8a6.png"
   },
   {
-    "revision": "75dbd815c5668e2d4aebaef1617c2285",
+    "revision": "fc2ddc55f81712ca015960b55fc43981",
     "url": "/index.html"
   }
 ];
