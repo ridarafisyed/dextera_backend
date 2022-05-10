@@ -6,8 +6,26 @@ class RoleSerializer(serializers.ModelSerializer):
         model = UserRole
         fields =  (
             "id",
-            "name"
+            "name",
+            "contacts",
+            "matter",
+            "calendar",
+            "flat_fee",
+            "expenses",
+            "trust",
+            "tasks",
+            "invoice",
+            "payments",
+            "full_dob",
+            "full_ssn",
+            "partial_ssn",
+            "partial_dob",
+            "roles",
+            "reports",
+            "discounts",
+            "bank_accounts",
         )
+
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserGroup
@@ -15,3 +33,5 @@ class GroupSerializer(serializers.ModelSerializer):
             "id",
             "name"
         )
+
+
