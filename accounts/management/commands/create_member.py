@@ -48,6 +48,6 @@ class Command(BaseCommand):
         print("Creating {}".format(u4))
         u4.save
 
-        u5 = Member.objects.create(first_name="James", l_name="Moriarty", c_email="user@firm2.com", group="client", role="")
+        u5 = Member.objects.create(f_name="James", l_name="Moriarty", c_email="user@firm2.com", group="client", role="")
         print("Creating {}".format(u5))
         u5.save
