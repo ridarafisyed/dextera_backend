@@ -2,18 +2,20 @@
 from django.core.management import BaseCommand
 from accounts.models import UserAccount
 
+ADMIN ={
+    "admin" : ["admin","Super","Admin","admin@admin.com","admin1234", ],
+}
 
 FIRMS = {
-    "admin" : ["admin","Super","Admin","admin@admin.com","admin1234"],
-    "client" : ["client","Joe","Adam","admin@admin.com","admin1234"],
-    "firm" : ["firm","Sherlock","Holmes","admin@admin.com","admin1234"],
-    "lawyer" : ["lawyer","Super","Admin","admin@admin.com","admin1234"],
+    "firm1" : ["firm1","Sherlock","Holmes","firm1@firm1.com","firm1234"],
+    "firm2" : ["firm2","Mycroft","Holmes","firm2@firm2.com","firm1234"],
 }
 FIRM_EMPLOYEE ={
-
+    "lawyer1" : ["lawyer1","John","Lawyer","lawyer1@firm1.com","firm1234"],
+    "lawyer2" : ["lawyer2","John","Lawyer","lawyer2@firm2.com","firm1234"],
 }
 CLIENT ={
-    
+    "client" : ["client","Joe","Adam","admin@admin.com","admin1234"],
 }
 
 class Command(BaseCommand):
@@ -22,7 +24,7 @@ class Command(BaseCommand):
 
     # A command must define handle()
     def handle(self, *args, **options):
-        for role_name in ROLES:
+        for user_ in USER:
 
             new_role = Role.objects.create(name=role_name)
             

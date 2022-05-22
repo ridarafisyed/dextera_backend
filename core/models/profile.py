@@ -1,7 +1,6 @@
 from django.db import models
 
 class Profile(models.Model):
-    
     # profile
     f_name= models.CharField(max_length=255, default="", blank=True)
     m_name= models.CharField(max_length=255, default="", blank=True)
