@@ -1,10 +1,8 @@
 
 from django.core.management import BaseCommand
 # from django.contrib.auth.models import Group
-# from accounts.models import Role
-from django.contrib.auth import get_user_model
+from core.models.profile import Member
 
-User = get_user_model()
 
 
 
@@ -34,23 +32,22 @@ class Command(BaseCommand):
     # A command must define handle()
     def handle(self, *args, **options):
    
-        u1 = User.objects.create_client(username="firm1", first_name="Sherlock", last_name="Holmes", email="firm1@firm1.com", password="firm11234")
+        u1 = Member.objects.create(f_name="Sherlock", l_name="Holmes", c_email="firm1@firm1.com", group="firm", role="Director")
         print("Creating {}".format(u1))
         u1.save
 
-        u2 = User.objects.create_client(username="firm2", first_name="Mycroft", last_name="Holmes", email="firm2@firm2.com", password="firm21234" )
+        u2 = Member.objects.create(f_name="Mycroft", l_name="Holmes", c_email="firm2@firm2.com",  group="firm", role="Director")
         print("Creating {}".format(u2))
         u2.save
        
-        u3 = User.objects.create_firm_employee(username="lawyer1", first_name="John", last_name="Watson", email="lawyer1@firm1.com", password="lawyer11234")
+        u3 = Member.objects.create(f_name="John", l_name="Watson", c_email="lawyer1@firm1.com", group="lawyer", role="Sr. Atterney")
         print("Creating {}".format(u3))
         u3.save
 
-        u4 = User.objects.create_firm_employee(username="lawyer2", first_name="Greg", last_name="Lestrade", email="lawyer2@firm2.com", password="lawyer21234")
+        u4 = Member.objects.create(f_name="Greg", l_name="Lestrade", c_email="lawyer2@firm2.com", group="lawyer", role="Sr. Atterney")
         print("Creating {}".format(u4))
         u4.save
-       
 
-        u5 = User.objects.create(username="user", first_name="James", last_name="Moriarty", email="user@firm2.com", password="user1234" )
+        u5 = Member.objects.create(first_name="James", l_name="Moriarty", c_email="user@firm2.com", group="client", role="")
         print("Creating {}".format(u5))
         u5.save
