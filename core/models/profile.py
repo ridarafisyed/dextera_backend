@@ -1,6 +1,7 @@
 from django.db import models
 
 class Profile(models.Model):
+    
     # profile
     f_name= models.CharField(max_length=255, default="", blank=True)
     m_name= models.CharField(max_length=255, default="", blank=True)
@@ -47,14 +48,16 @@ class Member(models.Model):
     f_name= models.CharField(max_length=255, default="", blank=True)
     m_name= models.CharField(max_length=255, default="", blank=True)
     l_name= models.CharField(max_length=255, default="", blank=True)
-    p_email= models.EmailField(max_length=255, default="")
+    p_email= models.EmailField(max_length=255, default="",blank=True, null=True)
     role= models.CharField(max_length=255, default="", blank=True)
-    c_email= models.EmailField(max_length=255, default="")
-    rate= models.IntegerField(default=0, blank=True, null=True)
+    c_email= models.EmailField(max_length=255, default="",blank=True, null=True)
+    rate= models.CharField(max_length=255, default="",blank=True, null=True)
     time_zone= models.CharField(max_length=255, default="", blank=True)
     group= models.CharField(max_length=255, default="", blank=True)
     job_title= models.CharField(max_length=255, default="", blank=True)
     bar_no= models.CharField(max_length=255, default="", blank=True)
+    
+    # contact Info
     street= models.CharField(max_length=255, default="", blank=True)
     suite= models.CharField(max_length=255, default="", blank=True)
     city= models.CharField(max_length=255, default="", blank=True)

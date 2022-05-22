@@ -15,6 +15,7 @@ class UserAccountManager(BaseUserManager):
         
         email = self.normalize_email(email)
         user = self.model(username=username, first_name= first_name, last_name=last_name, email=email)
+       
 
         user.set_password(password)
         
@@ -35,7 +36,6 @@ class UserAccountManager(BaseUserManager):
     
     def create_firm_employee(self, username, first_name, last_name, email, password):
         user = self.create_user(username, first_name, last_name, email, password) 
-
         user.is_firm_employee = True
         user.save()
 
@@ -43,7 +43,7 @@ class UserAccountManager(BaseUserManager):
 
     def create_client(self, username, first_name, last_name, email, password):
         user = self.create_user(username, first_name, last_name, email, password)
-        
+           
         user.is_client = True
         user.save()
 
@@ -54,8 +54,8 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.EmailField(max_length=255, unique=True)
-    role = models.ForeignKey(Role, verbose_name="role", on_delete=models.SET_NULL, null=True, blank=True)
-    group = models.ForeignKey(Group, verbose_name="group", on_delete=models.SET_NULL, null=True, blank=True)
+    role = models.ForeignKey(Role, related_name="role", on_delete=models.SET_NULL, null=True, blank=True)
+    group = models.ForeignKey(Group, related_name="group", on_delete=models.SET_NULL, null=True, blank=True)
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_firm_employee = models.BooleanField(default=False)

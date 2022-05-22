@@ -9,6 +9,7 @@ class Firm(models.Model):
     name = models.CharField(max_length=255)
     logo = models.CharField(max_length=255)
 
+
 class FirmEmployee(models.Model):
     employee = models.ForeignKey(User, on_delete=models.CASCADE)
     firm = models.ForeignKey(Firm, on_delete=models.CASCADE)

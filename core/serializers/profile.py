@@ -1,5 +1,8 @@
 from rest_framework import serializers
 from ..models.profile import Member, Profile, Group
+from django.contrib.auth import get_user_model
+ 
+User = get_user_model()
 
 
 class ProfileShortSerializer(serializers.ModelSerializer):
@@ -69,6 +72,14 @@ class CreateMamberSerializer(serializers.ModelSerializer):
             "work_no",
             "phone_ext",
         )
+        def create(self, validated_data):
+            username = validated_data['f_name'] + validated_data['l_name']
+            password = validated_data['f_name'] + validated_data['l_name'] +"1234"
+            user = User.objects.create_client(username, validated_data['f_name'],validated_data['l_name'], validated_data['p_email'],password)
+            user.set_password(password)
+            user.save()
+            member = Member.objects.create(validated_data)
+            return member
 
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:

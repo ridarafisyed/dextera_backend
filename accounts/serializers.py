@@ -2,6 +2,8 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from .models import  Role,  UserRole, Permissions
 
+from django.contrib.auth.models import Group 
+
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -49,6 +51,7 @@ class CreateClientSerializer(serializers.ModelSerializer):
 
   def create(self, validated_data):
     user = User.objects.create_client(validated_data['username'], validated_data['first_name'],validated_data['last_name'], validated_data['email'], validated_data['password'])
+    
     return user
 
 # Login Serializer
@@ -95,3 +98,13 @@ class RolePermissionsSerializer(serializers.ModelSerializer):
   class Meta:
       model = Role
       fields = ['id', 'name', 'permissions']
+
+class GroupsSerializer(serializers.ModelSerializer):
+  class Meta:
+      model = Group
+      fields = ['id', 'name']
+
+class IsActiveUser(serializers.ModelSerializer):
+  class Meta:
+    model= User
+    fields = ['id', 'is_active']

@@ -1,8 +1,10 @@
+
 from rest_framework import generics, permissions, viewsets
 from rest_framework import status
 from rest_framework.response import Response
 from knox.models import AuthToken
-from .serializers import CreateFirmEmployeeSerializer, UserListSerializer,CreateClientSerializer, UserSerializer, RegisterSerializer, LoginSerializer, RoleSerializer,  UserRoleSerializer , PermissionsSerializer, RolePermissionsSerializer
+from django.contrib.auth.models import Group 
+from .serializers import CreateFirmEmployeeSerializer, IsActiveUser, GroupsSerializer, UserListSerializer,CreateClientSerializer, UserSerializer, RegisterSerializer, LoginSerializer, RoleSerializer,  UserRoleSerializer , PermissionsSerializer, RolePermissionsSerializer
 from .models import Role,  UserRole, Permissions
 
 from django.contrib.auth import get_user_model
@@ -26,9 +28,10 @@ class RegisterAPI(generics.GenericAPIView):
     })
 
 # Register client 
-class CreateClientAPI(generics.GenericAPIView):
+class CreateClientAPI(viewsets.ModelViewSet):
   serializer_class = CreateClientSerializer
 
+  queryset = User.objects.all()
   def post(self, request, *args, **kwargs):
     serializer = self.get_serializer(data=request.data)
     serializer.is_valid(raise_exception=True)
@@ -38,7 +41,8 @@ class CreateClientAPI(generics.GenericAPIView):
         "status": status.HTTP_200_OK})
 
 # registering firm employee 
-class CreateFirmEmployeeAPI(generics.GenericAPIView):
+class CreateFirmEmployeeAPI(viewsets.ModelViewSet):
+  queryset = User.objects.all()
   serializer_class = CreateFirmEmployeeSerializer
 
   def post(self, request, *args, **kwargs):
@@ -111,3 +115,17 @@ class RolePermissionAPI(viewsets.ModelViewSet):
     ]
     serializer_class = RolePermissionsSerializer
     # lookup_field = 'role'
+
+class GroupAPI(viewsets.ModelViewSet):
+    queryset = Group.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = GroupsSerializer
+
+class IsActiveUserAPI(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = IsActiveUser
