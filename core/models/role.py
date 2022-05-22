@@ -8,7 +8,7 @@ class UserGroup(models.Model):
         return self.name
 
 class UserRole(models.Model):
-    name = models.CharField(max_length=250, unique=True)
+    name = models.CharField(max_length=250, unique=True)    
     contacts = models.CharField(max_length=12, default="00_ffffffff")
     matter= models.CharField(max_length=12, default="01_ffffffff")
     calendar= models.CharField(max_length=12, default="02_ffffffff")

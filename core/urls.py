@@ -1,7 +1,7 @@
 
 from .viewsets.contact import ContactViewset
 from .viewsets.ledger import NewLedgerTimeViewset
-from .viewsets.profile import ProfileList, CreateMemberViewset, GroupViewset, ProfileRegViewSet
+from .viewsets.profile import ProfileList, CreateMemberViewset,  ProfileRegViewSet
 from .viewsets.matter import MatterList, TaskViewset, TasksViewset, NewMatterViewset, NewTaskViewset
 from .viewsets.category import CategoryViewset, SubCategoryViewset, ClassificationViewset
 from .viewsets.role import RoleViewset, GroupViewset, GetRoleListViewset

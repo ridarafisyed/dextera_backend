@@ -1,9 +1,17 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, viewsets
+from rest_framework import status
 from rest_framework.response import Response
 from knox.models import AuthToken
-from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
+from .serializers import CreateFirmEmployeeSerializer, UserListSerializer,CreateClientSerializer, UserSerializer, RegisterSerializer, LoginSerializer, RoleSerializer,  UserRoleSerializer , PermissionsSerializer, RolePermissionsSerializer
+from .models import Role,  UserRole, Permissions
 
-# Register API
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
+# Create your views here.
+
+# Registeration Api view for registering user 
 class RegisterAPI(generics.GenericAPIView):
   serializer_class = RegisterSerializer
 
@@ -13,10 +21,35 @@ class RegisterAPI(generics.GenericAPIView):
     user = serializer.save()
     return Response({
       "user": UserSerializer(user, context=self.get_serializer_context()).data,
-      "token": AuthToken.objects.create(user)[1]
+      "token": AuthToken.objects.create(user)[1],
+      "status": status.HTTP_200_OK,
     })
 
-# Login API
+# Register client 
+class CreateClientAPI(generics.GenericAPIView):
+  serializer_class = CreateClientSerializer
+
+  def post(self, request, *args, **kwargs):
+    serializer = self.get_serializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    user = serializer.save()
+    return Response({
+        "user": UserSerializer(user, context=self.get_serializer_context()).data,
+        "status": status.HTTP_200_OK})
+
+# registering firm employee 
+class CreateFirmEmployeeAPI(generics.GenericAPIView):
+  serializer_class = CreateFirmEmployeeSerializer
+
+  def post(self, request, *args, **kwargs):
+    serializer = self.get_serializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    user = serializer.save()
+    return Response({
+        "user": UserSerializer(user, context=self.get_serializer_context()).data,
+        "status": status.HTTP_200_OK})
+
+# login user 
 class LoginAPI(generics.GenericAPIView):
   serializer_class = LoginSerializer
 
@@ -27,10 +60,11 @@ class LoginAPI(generics.GenericAPIView):
     _, token = AuthToken.objects.create(user)
     return Response({
       "user": UserSerializer(user, context=self.get_serializer_context()).data,
-      "token": token
+      "token": token,
+      "status": status.HTTP_200_OK
     })
 
-# Get User API
+# for accessing user data 
 class UserAPI(generics.RetrieveAPIView):
   permission_classes = [
     permissions.IsAuthenticated,
@@ -40,3 +74,40 @@ class UserAPI(generics.RetrieveAPIView):
   def get_object(self):
     return self.request.user
 
+class UserListAPI(viewsets.ModelViewSet):
+  queryset = User.objects.all()
+  permission_classes = [
+        permissions.AllowAny
+    ]
+  serializer_class = UserListSerializer
+
+
+class RoleAPI(viewsets.ModelViewSet):
+    queryset = Role.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = RoleSerializer
+
+class PermissionsAPI(viewsets.ModelViewSet):
+    queryset = Permissions.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = PermissionsSerializer
+
+
+class UserRoleAPI(viewsets.ModelViewSet):
+    queryset = UserRole.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = UserRoleSerializer
+
+class RolePermissionAPI(viewsets.ModelViewSet):
+    queryset = Role.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = RolePermissionsSerializer
+    # lookup_field = 'role'

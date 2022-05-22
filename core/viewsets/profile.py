@@ -1,21 +1,21 @@
 # Create your views here.
-from ..models.profile import Profile, Member, Group
+from ..models.profile import Profile, Member
 from rest_framework import  viewsets, permissions
 from django.shortcuts import get_object_or_404
-from ..serializers.profile import ProfileSerializer, CreateMamberSerializer, GroupSerializer, ProfileShortSerializer, UserRoleSerializer
+from ..serializers.profile import ProfileSerializer, CreateMamberSerializer,  ProfileShortSerializer
 from rest_framework.response import Response
 
-class RoleViewSet(viewsets.ModelViewSet):
-    permission_classes = [
-        permissions.IsAuthenticated,
-    ]
-    serializer_class = UserRoleSerializer
+# class RoleViewSet(viewsets.ModelViewSet):
+#     permission_classes = [
+#         permissions.IsAuthenticated,
+#     ]
+#     serializer_class = UserRoleSerializer
 
-    def get_queryset(self):
-        return self.request.user.role.all()
+#     def get_queryset(self):
+#         return self.request.user.role.all()
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+#     def perform_create(self, serializer):
+#         serializer.save(user=self.request.user)
         
 class ProfileRegViewSet(viewsets.ModelViewSet):
     permission_classes = [
@@ -53,12 +53,12 @@ class CreateMemberViewset(viewsets.ModelViewSet):
 
 
 
-class GroupViewset(viewsets.ModelViewSet):
-    queryset = Group.objects.all()
-    permission_classes = [
-        permissions.AllowAny
-    ]
-    serializer_class = GroupSerializer
+# class GroupViewset(viewsets.ModelViewSet):
+#     queryset = Group.objects.all()
+#     permission_classes = [
+#         permissions.AllowAny
+#     ]
+#     serializer_class = GroupSerializer
 
 
 # # access 

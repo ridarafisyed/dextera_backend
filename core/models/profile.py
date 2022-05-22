@@ -1,14 +1,7 @@
 from django.db import models
 
-
-class Role(models.Model):
-    user_id = models.IntegerField(default=0)
-    name = models.CharField(max_length=10)
-
-    def __str__(self):
-        return self.name
-
 class Profile(models.Model):
+    
     # profile
     f_name= models.CharField(max_length=255, default="", blank=True)
     m_name= models.CharField(max_length=255, default="", blank=True)
@@ -23,6 +16,7 @@ class Profile(models.Model):
     language = models.CharField(max_length=255, default="", blank=True)
     locate = models.BooleanField(default=False)
     search_active = models.BooleanField(default=False)
+    
     # education 
     law_school = models.CharField(max_length=255, default="", blank=True)
     grad_year = models.IntegerField(default=0)
@@ -32,6 +26,7 @@ class Profile(models.Model):
     undergrad_year = models.CharField(max_length=255, default="", blank=True)
     bar_no =  models.IntegerField(default=12345678, blank=True)
     admitted_practice = models.CharField(max_length=255, default="", blank=True)
+    
     # work history
     practice_time = models.CharField(max_length=255, default="", blank=True)
     longest_tenure = models.CharField(max_length=255, default="", blank=True)
@@ -70,7 +65,6 @@ class Member(models.Model):
     mobile= models.CharField(max_length=255, default="", blank=True)
     home= models.CharField(max_length=255, default="", blank=True)
     work_no= models.CharField(max_length=255, default="", blank=True)
-    
     phone_ext= models.CharField(max_length=255, default="", blank=True)
 
 
