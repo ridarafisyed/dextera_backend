@@ -89,3 +89,9 @@ class RolePermissionsSerializer(serializers.ModelSerializer):
   class Meta:
       model = Role
       fields = ['id', 'name', 'permissions']
+
+class RolePermissionsSerializer(serializers.ModelSerializer):
+  permissions = PermissionsSerializer(many=True)
+  class Meta:
+      model = Role
+      fields = ['id', 'name', 'permissions']

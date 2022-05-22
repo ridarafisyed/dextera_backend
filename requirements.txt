@@ -1,4 +1,5 @@
 asgiref==3.4.1
+bleach==4.1.0
 certifi==2021.10.8
 cffi==1.15.0
 charset-normalizer==2.0.9
@@ -13,12 +14,15 @@ dj-database-url==0.5.0
 Django==3.2
 django-allauth==0.47.0
 django-cors-headers==3.10.1
+django-environ==0.8.1
+django-filter==21.1
 django-heroku==0.3.1
 django-on-heroku==1.1.2
 django-rest-auth==0.9.5
 django-rest-knox==4.1.0
+django-summernote==0.8.20.0
 django-templated-mail==1.1.1
-djangorestframework==3.11.0
+djangorestframework==3.11.1
 dynaconf==3.1.7
 filelock==3.4.2
 gunicorn==20.1.0
@@ -30,10 +34,13 @@ knox==0.1.14
 loguru==0.5.3
 MarkupSafe==2.0.1
 oauthlib==3.1.1
+packaging==21.3
+Pillow==9.0.1
 platformdirs==2.4.1
 psycopg2==2.9.2
 psycopg2-binary==2.9.3
 pycparser==2.21
+pyparsing==3.0.7
 python3-openid==3.2.0
 pytz==2021.3
 requests==2.26.0
@@ -47,4 +54,5 @@ uritemplate==4.1.1
 urllib3==1.26.7
 validators==0.18.2
 virtualenv==20.13.0
+webencodings==0.5.1
 whitenoise==5.3.0

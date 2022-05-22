@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, Group
 
 # Create your models here.
 
@@ -55,6 +55,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=255)
     email = models.EmailField(max_length=255, unique=True)
     role = models.ForeignKey(Role, verbose_name="role", on_delete=models.SET_NULL, null=True, blank=True)
+    group = models.ForeignKey(Group, verbose_name="group", on_delete=models.SET_NULL, null=True, blank=True)
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_firm_employee = models.BooleanField(default=False)
