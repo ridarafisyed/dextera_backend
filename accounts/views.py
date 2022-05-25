@@ -81,12 +81,20 @@ class UserListAPI(viewsets.ModelViewSet):
   serializer_class = UserSerializer
 
 
-class RoleAPI(viewsets.ModelViewSet):
-    queryset = Role.objects.all()
-    permission_classes = [
-        permissions.AllowAny
-    ]
+class RoleAPI(generics.GenericAPIView):
     serializer_class = RoleSerializer
+
+    def post(self, request, *args, **kwargs):
+      serializer = self.get_serializer(data=request.data)
+      serializer.is_valid(raise_exception=True)
+      role = serializer.validated_data
+      
+      return Response({
+        "user": UserSerializer(user, context=self.get_serializer_context()).data,
+        "token": token,
+        "status": status.HTTP_200_OK
+      })
+
 
 class PermissionsAPI(viewsets.ModelViewSet):
     queryset = Permissions.objects.all()

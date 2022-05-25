@@ -8,6 +8,10 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+PERMISSIONS = ['Contact', 'Matter', 'Calender', 'Flat Fee', 'Expenses','Trust','Task(s)',
+    'Invoice', 'Payments','Full DOB','Full SSN', 'Partial DOB', 'Partial SSN',
+    'Roles', 'Reports', 'Discounts', 'Bank Acounts']
+
 class UserSerializer(serializers.ModelSerializer):
   # role_name = serializers.RelatedField(source='role.name', read_only=True)
   class Meta:
@@ -68,14 +72,12 @@ class LoginSerializer(serializers.Serializer):
     
   
 class RoleSerializer(serializers.ModelSerializer):
-  
     class Meta:
         model = Role
         fields=(
             "id",
             "name"
         )
-   
         
 class PermissionsSerializer(serializers.ModelSerializer):
    class Meta:

@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .viewsets import  GroupAPI, RegisterAPI, IsActiveUserAPI, LoginAPI, UserAPI,CreateClientAPI, CreateFirmEmployeeAPI, RoleAPI, UserListAPI, PermissionsAPI, RolePermissionAPI
+from .viewsets import  GroupAPI, RegisterAPI, IsActiveUserAPI, LoginAPI, UserAPI,CreateClientAPI, CreateFirmEmployeeAPI, RoleAPI, UserListAPI, PermissionsAPI, RolePermissionAPI, UserRoleAPI
 from knox import views as knox_views
 
 from rest_framework import routers
@@ -8,6 +8,7 @@ router = routers.DefaultRouter()
 
 router.register('auth/roles', RoleAPI, "roles"),
 router.register('auth/users-list', UserListAPI, "users_list")
+router.register('auth/users-role-list', UserRoleAPI, "users_role_list")
 router.register('auth/permissions', PermissionsAPI, "permissions")
 router.register('auth/role-permissions', RolePermissionAPI, "role_permissions")
 router.register('auth/groups', GroupAPI, "group")
@@ -28,6 +29,7 @@ urlpatterns = router.urls + [
  
   path('auth/register', RegisterAPI.as_view()),
   # path('auth/register-client', CreateClientAPI.as_view()),
+
   
   path('auth/login', LoginAPI.as_view()),
   path('auth/user', UserAPI.as_view()),
