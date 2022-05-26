@@ -9,7 +9,7 @@ class ProfileShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
         fields =  ('id',
-        'user',
+                    'user',
                     'first_name',
                     'last_name',
                     'role',
@@ -45,14 +45,49 @@ class ProfileSerializer(serializers.ModelSerializer):
                     'past_bar_companies_no',
                     'primary_area',)
 
-class CreateMamberSerializer(serializers.ModelSerializer):
+
+class CreateMemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Member
+        fields = (
+            "id", 
+            "first_name",
+            "middle_name",
+            "last_name",
+            "p_email",
+            "role",
+            "c_email",
+            "rate",
+            "time_zone",
+            "group",
+            "job_title",
+            "bar_no",
+            "street",
+            "suite",
+            "city",
+            "state",
+            "zip",
+            "ext",
+            "mobile",
+            "home",
+            "work_no",
+            "phone_ext",
+        )
+       
+class MembersSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
+    last_login = serializers.CharField(source='user.last_login', read_only=True)
+    is_active = serializers.CharField(source='user.is_active', read_only=True)
     class Meta:
         model = Member
         fields =  (
             "id",
-            "f_name",
-            "m_name",
-            "l_name",
+            'username',
+            "last_login",
+            "is_active",
+            "first_name",
+            "middle_name",
+            "last_name",
             "p_email",
             "role",
             "c_email",
@@ -78,6 +113,7 @@ class CreateMamberSerializer(serializers.ModelSerializer):
             user = User.objects.create_client(username, validated_data['f_name'],validated_data['l_name'], validated_data['p_email'],password)
             user.set_password(password)
             user.save()
+            
             member = Member.objects.create(validated_data)
             return member
 

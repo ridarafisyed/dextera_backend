@@ -1,7 +1,7 @@
 
 from .viewsets.contact import ContactViewset
 from .viewsets.ledger import NewLedgerTimeViewset
-from .viewsets.profile import ProfileList, CreateMemberViewset,  ProfileRegViewSet
+from .viewsets.profile import ProfileList, CreateMemberViewset,  ProfileRegViewSet, MembersViewset
 from .viewsets.matter import MatterList, TaskViewset, TasksViewset, NewMatterViewset, NewTaskViewset
 from .viewsets.category import CategoryViewset, SubCategoryViewset, ClassificationViewset
 
@@ -23,6 +23,7 @@ router.register('task', TaskViewset, "task")
 router.register('new-task', NewTaskViewset, "task")
 
 router.register('add-time',NewLedgerTimeViewset, 'add-time')
+router.register('members', MembersViewset, "members")
 router.register('create-member', CreateMemberViewset, "create-member")
 
 router.register('contact', ContactViewset, "contact")

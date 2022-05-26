@@ -2,7 +2,7 @@
 from ..models.profile import Profile, Member
 from rest_framework import  viewsets, permissions
 from django.shortcuts import get_object_or_404
-from ..serializers.profile import ProfileSerializer, CreateMamberSerializer,  ProfileShortSerializer
+from ..serializers.profile import ProfileSerializer, CreateMemberSerializer, MembersSerializer,  ProfileShortSerializer
 from rest_framework.response import Response
 
 # class RoleViewSet(viewsets.ModelViewSet):
@@ -48,9 +48,14 @@ class CreateMemberViewset(viewsets.ModelViewSet):
     permission_classes = [
         permissions.AllowAny
     ]
-    serializer_class = CreateMamberSerializer
+    serializer_class = CreateMemberSerializer
 
-
+class MembersViewset(viewsets.ModelViewSet):
+    queryset = Member.objects.all()
+    permission_classes = [
+        permissions.AllowAny
+    ]
+    serializer_class = MembersSerializer
 
 
 # class GroupViewset(viewsets.ModelViewSet):

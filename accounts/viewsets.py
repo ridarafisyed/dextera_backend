@@ -4,8 +4,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from knox.models import AuthToken
 from django.contrib.auth.models import Group 
-from .serializers import CreateFirmEmployeeSerializer, IsActiveUser, GroupsSerializer, UserListSerializer,CreateClientSerializer, UserSerializer, RegisterSerializer, LoginSerializer, RoleSerializer,  UserRoleSerializer , PermissionsSerializer, RolePermissionsSerializer
+from .serializers import CreateUserSerializer, CreateFirmEmployeeSerializer, IsActiveUser, GroupsSerializer, UserListSerializer,CreateClientSerializer, UserSerializer, RegisterSerializer, LoginSerializer, RoleSerializer,  UserRoleSerializer , PermissionsSerializer, RolePermissionsSerializer
 from .models import Role,  UserRole, Permissions
+
 
 from django.contrib.auth import get_user_model
 
@@ -36,10 +37,13 @@ class CreateClientAPI(viewsets.ModelViewSet):
   serializer_class = CreateClientSerializer
 
   queryset = User.objects.all()
+
   def post(self, request, *args, **kwargs):
     serializer = self.get_serializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     user = serializer.save()
+    obj = Member.objects.create(role = role, name = permission)
+    obj.save()
     return Response({
         "user": UserSerializer(user, context=self.get_serializer_context()).data,
         "status": status.HTTP_200_OK})
@@ -88,7 +92,10 @@ class UserListAPI(viewsets.ModelViewSet):
         permissions.AllowAny
     ]
   serializer_class = UserListSerializer
-
+class CreateUserViewset(viewsets.ModelViewSet):
+  queryset = User.objects.all()
+  permission_classes =[permissions.AllowAny]
+  serializer_class= CreateUserSerializer
 class RoleAPI(viewsets.ModelViewSet):
     queryset = Role.objects.all()
     permission_classes = [

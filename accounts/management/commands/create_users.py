@@ -1,32 +1,10 @@
 
 from django.core.management import BaseCommand
-# from django.contrib.auth.models import Group
-# from accounts.models import Role
+from core.models.profile import Member
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-
-
-# FIRMS = {
-#     "firm1" : ["firm1","Sherlock","Holmes","firm1@firm1.com","firm1234"],
-#     "firm2" : ["firm2","Mycroft","Holmes","firm2@firm2.com","firm1234"],
-# }
-# FIRM_EMPLOYEE ={
-#     "lawyer1" : ["lawyer1","John","Lawyer","lawyer1@firm1.com","firm1234"],
-#     "lawyer2" : ["lawyer2","John","Lawyer","lawyer2@firm2.com","firm1234"],
-# }
-# CLIENT ={
-#     "client" : ["client","Joe","Adam","admin@admin.com","admin1234"],
-
-# }
-
-# #  group = Group.objects.get("client")
-# #         user.group = group
-
-
-# #  role = Role.objects.get("Sr. Atterney")
-# #         user.role = role
 class Command(BaseCommand):
     # Show this when the user types help
     help = "Create Role and its permissions"
@@ -50,7 +28,26 @@ class Command(BaseCommand):
         print("Creating {}".format(u4))
         u4.save
        
-
         u5 = User.objects.create(username="user", first_name="James", last_name="Moriarty", email="user@firm2.com", password="user1234" )
         print("Creating {}".format(u5))
         u5.save
+
+        m1 = Member.objects.create(user=u1, first_name="Sherlock", last_name="Holmes", c_email="firm1@firm1.com", group="firm", role="Director")
+        print("Creating {}".format(u1))
+        m1.save
+
+        m2 = Member.objects.create(user=u2, first_name="Mycroft", last_name="Holmes", c_email="firm2@firm2.com",  group="firm", role="Director")
+        print("Creating {}".format(u2))
+        m2.save
+       
+        m3 = Member.objects.create(user=u3, first_name="John", last_name="Watson", c_email="lawyer1@firm1.com", group="lawyer", role="Sr. Atterney")
+        print("Creating {}".format(u3))
+        m3.save
+
+        m4 = Member.objects.create(user=u4, first_name="Greg", last_name="Lestrade", c_email="lawyer2@firm2.com", group="lawyer", role="Sr. Atterney")
+        print("Creating {}".format(u4))
+        m4.save
+
+        m5 = Member.objects.create(user=u5, first_name="James", last_name="Moriarty", c_email="user@firm2.com", group="client", role="")
+        print("Creating {}".format(u5))
+        m5.save

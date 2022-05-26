@@ -1,11 +1,13 @@
 from django.db import models
 
+from accounts.models import UserAccount
+
 class Profile(models.Model):
     
     # profile
-    f_name= models.CharField(max_length=255, default="", blank=True)
-    m_name= models.CharField(max_length=255, default="", blank=True)
-    l_name= models.CharField(max_length=255, default="", blank=True)
+    first_name = models.CharField(max_length=255, default="", blank=True)
+    middle_name= models.CharField(max_length=255, default="", blank=True)
+    last_name= models.CharField(max_length=255, default="", blank=True)
     p_email= models.EmailField(max_length=255, default="")
     role= models.CharField(max_length=255, default="", blank=True)
     email= models.EmailField(max_length=255, default="")
@@ -45,9 +47,10 @@ class Profile(models.Model):
         return self.username
 
 class Member(models.Model):
-    f_name= models.CharField(max_length=255, default="", blank=True)
-    m_name= models.CharField(max_length=255, default="", blank=True)
-    l_name= models.CharField(max_length=255, default="", blank=True)
+    user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, related_name="member", blank=True, null=True)
+    first_name= models.CharField(max_length=255, default="", blank=True)
+    middle_name= models.CharField(max_length=255, default="", blank=True)
+    last_name= models.CharField(max_length=255, default="", blank=True)
     p_email= models.EmailField(max_length=255, default="",blank=True, null=True)
     role= models.CharField(max_length=255, default="", blank=True)
     c_email= models.EmailField(max_length=255, default="",blank=True, null=True)
