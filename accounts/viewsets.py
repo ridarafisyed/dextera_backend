@@ -6,13 +6,46 @@ from knox.models import AuthToken
 from django.contrib.auth.models import Group 
 from .serializers import CreateUserSerializer, CreateFirmEmployeeSerializer, IsActiveUser, GroupsSerializer, UserListSerializer,CreateClientSerializer, UserSerializer, RegisterSerializer, LoginSerializer, RoleSerializer,  UserRoleSerializer , PermissionsSerializer, RolePermissionsSerializer
 from .models import Role,  UserRole, Permissions
+from rest_framework import generics, permissions 
+from rest_framework.views import APIView
 
+from rest_framework.response import Response
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
+from django.utils.decorators import method_decorator
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
-
 
 User = get_user_model()
 # Create your views here.
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ListPermissionsView(generics.ListAPIView):
+    queryset = Permissions.objects.all()
+    serializer_class = PermissionsSerializer
+
+@method_decorator(csrf_exempt, name='dispatch')
+class UpdatePermissionView(generics.RetrieveUpdateAPIView):
+    queryset = Permissions.objects.all()
+    serializer_class = PermissionsSerializer
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ListRolesView(generics.ListAPIView):
+    queryset = Role.objects.all()
+    serializer_class = RolePermissionsSerializer
+
+@method_decorator(csrf_exempt, name='dispatch')
+class GetRoleView(generics.RetrieveAPIView):
+    queryset = Role.objects.all()
+    serializer_class = RolePermissionsSerializer
+
+@method_decorator(csrf_exempt, name='dispatch')
+class UpdateRoleView(generics.RetrieveUpdateAPIView):
+    queryset = Role.objects.all()
+    serializer_class = RolePermissionsSerializer
+
+
 
 PERMISSIONS = ['Contact', 'Matter', 'Calender', 'Flat Fee', 'Expenses','Trust','Task(s)',
     'Invoice', 'Payments','Full DOB','Full SSN', 'Partial DOB', 'Partial SSN',
@@ -101,7 +134,7 @@ class CreateUserViewset(viewsets.ModelViewSet):
 
 
 class RoleAPI(viewsets.ModelViewSet):
-    queryset = Role.objects.all()
+    queryset = Role.objects.all().order_by('-pk')
     permission_classes = [
         permissions.AllowAny
     ]
@@ -136,7 +169,7 @@ class UserRoleAPI(viewsets.ModelViewSet):
     serializer_class = UserRoleSerializer
 
 class RolePermissionAPI(viewsets.ModelViewSet):
-    queryset = Role.objects.all()
+    queryset = Role.objects.all().order_by('pk')
     permission_classes = [
         permissions.AllowAny
     ]
@@ -156,3 +189,6 @@ class IsActiveUserAPI(viewsets.ModelViewSet):
         permissions.AllowAny
     ]
     serializer_class = IsActiveUser
+
+
+

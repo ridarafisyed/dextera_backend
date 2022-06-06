@@ -136,3 +136,4 @@ class IsActiveUser(serializers.ModelSerializer):
   class Meta:
     model= User
     fields = ['id', 'is_active']
+
