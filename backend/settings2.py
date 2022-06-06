@@ -51,10 +51,16 @@ INSTALLED_APPS = [
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',)
 }
+CSRF_TRUSTED_ORIGINS = [
+    "localhost:3000",
+    "localhost:8000",
+]
+CSRF_COOKIE_HTTPONLY = True
+
 REST_KNOX = {
   'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
   'AUTH_TOKEN_CHARACTER_LENGTH': 64,
-  'TOKEN_TTL': timedelta(hours=10),
+  'TOKEN_TTL': timedelta(hours=2),
   'USER_SERIALIZER': 'knox.serializers.UserSerializer',
   'TOKEN_LIMIT_PER_USER': None,
   'AUTO_REFRESH': False,
@@ -68,7 +74,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

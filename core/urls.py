@@ -1,10 +1,11 @@
 
+from  django.urls import path
 from .viewsets.contact import ContactViewset
 from .viewsets.ledger import NewLedgerTimeViewset
 from .viewsets.profile import ProfileList, CreateMemberViewset,  ProfileRegViewSet, MembersViewset
 from .viewsets.matter import MatterList, TaskViewset, TasksViewset, NewMatterViewset, NewTaskViewset
 from .viewsets.category import CategoryViewset, SubCategoryViewset, ClassificationViewset
-
+from .viewsets.member import ListMembersView, UpdateMemberView
 
 from rest_framework import routers
 
@@ -27,5 +28,9 @@ router.register('members', MembersViewset, "members")
 router.register('create-member', CreateMemberViewset, "create-member")
 
 router.register('contact', ContactViewset, "contact")
+# router.register('members-lists', ListMembersView.as_view(), "member-list")
 
-urlpatterns = router.urls
+urlpatterns = router.urls + [
+    path('members-list/', ListMembersView.as_view()),
+    path('member-update/<int:pk>/', UpdateMemberView.as_view()),
+]

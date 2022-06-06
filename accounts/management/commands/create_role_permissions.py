@@ -3,7 +3,7 @@ from django.core.management import BaseCommand
 from accounts.models import Role, Permissions
 
 ROLES =['Principal', 'Partner','Director','Accounting','Manager',
-        'Sr. Atterney', 'Jr. Atterney', 'Paralegal', 'Assistant', 'Administrator', 'IT']
+        'Sr. Atterney', 'Jr. Attorney', 'Paralegal', 'Assistant', 'Administrator', 'IT']
 
 
 PERMISSIONS = ['Contact', 'Matter', 'Calender', 'Flat Fee', 'Expenses','Trust','Task(s)',

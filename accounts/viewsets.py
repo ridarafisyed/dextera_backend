@@ -92,10 +92,14 @@ class UserListAPI(viewsets.ModelViewSet):
         permissions.AllowAny
     ]
   serializer_class = UserListSerializer
+
+
 class CreateUserViewset(viewsets.ModelViewSet):
   queryset = User.objects.all()
   permission_classes =[permissions.AllowAny]
   serializer_class= CreateUserSerializer
+
+
 class RoleAPI(viewsets.ModelViewSet):
     queryset = Role.objects.all()
     permission_classes = [
