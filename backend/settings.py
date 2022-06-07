@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-3jsxxav7$cg!=!k-5=esmio-&+_+2@s*shq&)wnlx250!wy)!^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*','https://dextera-lawfirm.netlify.app']
+ALLOWED_HOSTS = ['*',]
 
 
 # Application definition
@@ -167,6 +167,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 CSRF_TRUSTED_ORIGINS = [
     "https://dextera-lawfirm.netlify.app",
     "https://dextera-lawfirm.herokuapp.com",
+    "localhost:3000",
+    "localhost:8000",
 ]
 CSRF_COOKIE_HTTPONLY = True
 # Default primary key field type
