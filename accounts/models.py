@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 class Role(models.Model):
     name = models.CharField(max_length=255, unique=True)
     class Meta:
-        ordering = ['name']
+        ordering = ['id']
     def __str__(self):
         return self.name
 
@@ -99,7 +99,7 @@ class RoleFunctions(models.Model):
     name = models.CharField(max_length=100)
     
     class Meta:
-        ordering = ['role', 'name']
+        ordering = ['id']
         # unique_together = ['role', 'name']
     
     def __str__(self):
