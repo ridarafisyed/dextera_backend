@@ -1,5 +1,8 @@
 from django.urls import path, include
 from .viewsets import CreateUserViewset, GroupAPI, RegisterAPI,ListPermissionsView,ListRolesView,GetRoleView,UpdateRoleView, UpdatePermissionView, IsActiveUserAPI, LoginAPI, UserAPI,CreateClientAPI, CreateFirmEmployeeAPI, RoleAPI, UserListAPI, PermissionsAPI, RolePermissionAPI, UserRoleAPI
+from .viewset.role import DeleteRoleView, RolesListView, RolesCreateView, SingleRoleView
+from .viewset.role import RoleFunctionsListView, SingleRoleFunctionView, DeleteRoleFunctionView,RoleFunctionsCreateView
+from .viewset.role import RoleFunctionPermissionCreateView,RoleFunctionPermissionsListView,DeleteRoleFunctionPermissionView,SingleRoleFunctionPermissionView
 from knox import views as knox_views
 
 from rest_framework import routers
@@ -31,6 +34,21 @@ urlpatterns = router.urls + [
   path('roles-list/', ListRolesView.as_view()),
   path('role-update/<int:pk>/', GetRoleView.as_view()),
   path('role-get/<int:pk>/', UpdateRoleView.as_view()),
+  
+  path('role-create-view/', RolesCreateView.as_view()),
+  path('role-single-view/<int:pk>/', SingleRoleView.as_view()),
+  path('role-delete-view/<int:pk>/', DeleteRoleView.as_view()),
+  path('role-list/', RolesListView.as_view()),
+
+  path('role-function-create/', RoleFunctionsCreateView.as_view()),
+  path('role-function-list/', RoleFunctionsListView.as_view()),
+  path('role-function-delete/<int:pk>/',DeleteRoleFunctionView.as_view()),
+  path('role-function-single/<int:pk>/',SingleRoleFunctionView.as_view()),
+
+   path('role-function-permission-create/', RoleFunctionPermissionCreateView.as_view()),
+  path('role-function-permissions-list/', RoleFunctionPermissionsListView.as_view()),
+  path('role-function-permission-delete/<int:pk>/',DeleteRoleFunctionPermissionView.as_view()),
+  path('role-function-permission-single/<int:pk>/',SingleRoleFunctionPermissionView.as_view()),
   
 ]
 

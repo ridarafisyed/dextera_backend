@@ -5,8 +5,11 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 
 class Role(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    class Meta:
+        ordering = ['name']
     def __str__(self):
         return self.name
+
 
 class UserAccountManager(BaseUserManager):
     def create_user(self,username, first_name, last_name, email, password=None):
@@ -90,6 +93,30 @@ class Permissions(models.Model):
 
     def __str__(self):
         return self.name
+
+class RoleFunctions(models.Model):
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name="role_functions")
+    name = models.CharField(max_length=100)
+    
+    class Meta:
+        ordering = ['role', 'name']
+        # unique_together = ['role', 'name']
+    
+    def __str__(self):
+        return self.name
+
+class FunctionPermissions(models.Model):
+    role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name="role_function_permission", null=True, blank=True)
+    func = models.ForeignKey(RoleFunctions, on_delete=models.CASCADE, related_name="function_permission", null=True, blank=True)
+    name = models.CharField(max_length=50)
+    is_set = models.BooleanField(default=False)
+
+    
+    def __str__(self):
+        return self.name
+
+    
+
 
 class UserRole(models.Model):
     user = models.ForeignKey(UserAccount, verbose_name="user", on_delete=models.CASCADE)
