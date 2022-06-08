@@ -1,7 +1,7 @@
 from accounts.models import FunctionPermissions, Role, RoleFunctions,  UserRole, Permissions
 from rest_framework import status
-from accounts.serializer.role import FunctionPermissionsSerializer, RoleSerializer, RoleFunctionsSerializer
-from rest_framework import generics, permissions 
+from accounts.serializer.role import FunctionPermissionsSerializer, RoleSerializer,RolesSerializer, RoleFunctionsSerializer
+from rest_framework import generics, permissions,viewsets 
 from rest_framework.response import Response
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -12,31 +12,75 @@ PERMISSIONS_ALL = ['view','edit', 'create', 'delete' ]
 
 PERMISSIONS_CONTACT =['contacts', 'team', 'office', 'region']
 
-FUNCTIONS = ['Contact', 'Matter', 'Calender', 'Flat Fee', 'Expenses','Trust','Task(s)',
-    'Invoice', 'Payments','Full DOB','Full SSN', 'Partial DOB', 'Partial SSN',
-    'Roles', 'Reports', 'Discounts', 'Bank Acounts']
+FUNCTIONS = ['Contact', 
+            'Matter', 
+            'Calender', 
+            'Flat Fee', 
+            'Expenses',
+            'Trust',
+            'Task(s)',
+            'Invoice', 
+            'Payments',
+            'Full DOB',
+            'Full SSN', 
+            'Partial DOB', 
+            'Partial SSN',
+            'Roles', 
+            'Reports', 
+            'Discounts', 
+            'Bank Acounts']
+
 
 class RolesCreateView(generics.CreateAPIView):
     queryset = Role.objects.all()
-    serializer_class = RoleSerializer
+    serializer_class = RolesSerializer
 
     def create(self, request, *args, **kwargs):
       serializer = self.get_serializer(data=request.data)
       serializer.is_valid(raise_exception=True)
+      new_role = serializer.save()
+
+      for item in FUNCTIONS:            
+            func= RoleFunctions.objects.create(name = item, role=new_role)
+            func.save()
+            for perm in PERMISSIONS_ALL:
+                permission= FunctionPermissions.objects.create(role = new_role, func = func, name = perm)
+                permission.save()
+            if item == "Contact":
+                for c_perm in PERMISSIONS_CONTACT:
+                    c_permission, create = FunctionPermissions.objects.get_or_create(role = new_role, func = func, name = c_perm)
+                          
+      return Response({
+        "role": RolesSerializer(new_role, context=self.get_serializer_context()).data,
+        "status": status.HTTP_200_OK
+      })
+
+
+class RolesCreate(viewsets.ModelViewSet):
+
+  queryset = Role.objects.all()
+  permission_classes = [
+        permissions.AllowAny
+    ]
+  serializer_class = RolesSerializer
+
+
+  def create(self, request, *args, **kwargs):
+      serializer = self.get_serializer(data=request.data)
+      serializer.is_valid(raise_exception=True)
       role = serializer.save()
       for item in FUNCTIONS:
-        fun = RoleFunctions.objects.create(role = role, name = item)
-        fun.save()
-        for perm in PERMISSIONS_ALL:
-          fun = FunctionPermissions.objects.create(role = role, function = fun, name = perm)
-          fun.save()
-        if item == "Contact":
-          for c_perm in PERMISSIONS_CONTACT:
-            c_fun = FunctionPermissions.objects.create(role = role, func = fun, name = c_perm)
-            c_fun.save()
+          obj_fun = RoleFunctions.objects.create(role = role, name = item)
+          obj_fun.save()          
+          for perm in PERMISSIONS_ALL:
+              obj_perm = FunctionPermissions.objects.create(role = role, func = obj_fun, name = perm)
+              obj_perm.save()
+          if item == "Contact":
+              for c_perm in PERMISSIONS_CONTACT:
+                  c_fun = FunctionPermissions.objects.create(role = role, func = obj_fun, name = c_perm)
+                  c_fun.save()
       return Response({
-        "role": RoleSerializer(role, context=self.get_serializer_context()).data,
-        
+        "role": RolesSerializer(role, context=self.get_serializer_context()).data,
         "status": status.HTTP_200_OK
       })
 

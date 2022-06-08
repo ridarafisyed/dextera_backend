@@ -1,6 +1,6 @@
 from django.urls import path, include
 from .viewsets import CreateUserViewset, GroupAPI, RegisterAPI,ListPermissionsView,ListRolesView,GetRoleView,UpdateRoleView, UpdatePermissionView, IsActiveUserAPI, LoginAPI, UserAPI,CreateClientAPI, CreateFirmEmployeeAPI, RoleAPI, UserListAPI, PermissionsAPI, RolePermissionAPI, UserRoleAPI
-from .viewset.role import DeleteRoleView, RolesListView, RolesCreateView, SingleRoleView
+from .viewset.role import DeleteRoleView, RolesCreate, RolesListView, RolesCreateView, SingleRoleView
 from .viewset.role import RoleFunctionsListView, SingleRoleFunctionView, DeleteRoleFunctionView,RoleFunctionsCreateView
 from .viewset.role import RoleFunctionPermissionCreateView,RoleFunctionPermissionsListView,DeleteRoleFunctionPermissionView,SingleRoleFunctionPermissionView
 from knox import views as knox_views
@@ -19,6 +19,8 @@ router.register('auth/groups', GroupAPI, "group")
 router.register('auth/is-active-user', IsActiveUserAPI, "is_active_user")
 router.register('auth/register-client', CreateClientAPI, "register-client" )
 router.register('auth/register-firm-employee', CreateFirmEmployeeAPI, "register_firm_employe"),
+router.register('role-create', RolesCreate, "role_create"),
+
 
 
 urlpatterns = router.urls + [
@@ -36,6 +38,7 @@ urlpatterns = router.urls + [
   path('role-get/<int:pk>/', UpdateRoleView.as_view()),
   
   path('role-create-view/', RolesCreateView.as_view()),
+
   path('role-single-view/<int:pk>/', SingleRoleView.as_view()),
   path('role-delete-view/<int:pk>/', DeleteRoleView.as_view()),
   path('role-list/', RolesListView.as_view()),
@@ -45,7 +48,7 @@ urlpatterns = router.urls + [
   path('role-function-delete/<int:pk>/',DeleteRoleFunctionView.as_view()),
   path('role-function-single/<int:pk>/',SingleRoleFunctionView.as_view()),
 
-   path('role-function-permission-create/', RoleFunctionPermissionCreateView.as_view()),
+  path('role-function-permission-create/', RoleFunctionPermissionCreateView.as_view()),
   path('role-function-permissions-list/', RoleFunctionPermissionsListView.as_view()),
   path('role-function-permission-delete/<int:pk>/',DeleteRoleFunctionPermissionView.as_view()),
   path('role-function-permission-single/<int:pk>/',SingleRoleFunctionPermissionView.as_view()),
