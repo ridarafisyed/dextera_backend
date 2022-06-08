@@ -134,7 +134,7 @@ class CreateUserViewset(viewsets.ModelViewSet):
 
 
 class RoleAPI(viewsets.ModelViewSet):
-    queryset = Role.objects.all().order_by('-pk')
+    queryset = Role.objects.all().order_by('pk')
     permission_classes = [
         permissions.AllowAny
     ]
