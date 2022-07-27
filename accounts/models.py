@@ -95,6 +95,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
 class Permissions(models.Model):
     role =  models.ForeignKey(Role, related_name="permissions", on_delete=models.CASCADE)
+    role_category = models.CharField(max_length=255, null=True, blank= True)
     name = models.CharField(max_length=255)
     is_view = models.BooleanField(default=False)
     is_edit = models.BooleanField(default=False)

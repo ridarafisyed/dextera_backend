@@ -135,7 +135,7 @@ class RoleSerializer(serializers.ModelSerializer):
 class PermissionsSerializer(serializers.ModelSerializer):
    class Meta:
       model = Permissions
-      fields = ('id', 'name', 'role', "is_view","is_edit","is_create","is_delete","is_contacts","is_team","is_office","is_region")
+      fields = ('id', 'name', 'role', 'role_category' "is_view","is_edit","is_create","is_delete","is_contacts","is_team","is_office","is_region")
 
 class UserRoleSerializer(serializers.ModelSerializer):
    class Meta:
