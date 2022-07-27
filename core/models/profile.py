@@ -3,18 +3,34 @@ from django.db import models
 from accounts.models import UserAccount
 
 class Profile(models.Model):
-    
-    # profile
-    first_name = models.CharField(max_length=255, default="", blank=True)
+    # User Profile
+    user = models.OneToOneField(UserAccount, on_delete=models.CASCADE, related_name="profile", blank=True, null=True)
+    # personal information
+    first_name= models.CharField(max_length=255, default="", blank=True)
     middle_name= models.CharField(max_length=255, default="", blank=True)
     last_name= models.CharField(max_length=255, default="", blank=True)
-    p_email= models.EmailField(max_length=255, default="")
+    p_email= models.EmailField(max_length=255, default="",blank=True, null=True)
     role= models.CharField(max_length=255, default="", blank=True)
-    email= models.EmailField(max_length=255, default="")
-    mobile = models.IntegerField(default=0, blank=True, null=True)
-    phone = models.IntegerField(default=0, blank=True, null=True)
-    state = models.CharField(max_length=255, default="", blank=True)
+    c_email= models.EmailField(max_length=255, default="",blank=True, null=True)
+    rate= models.CharField(max_length=255, default="",blank=True, null=True)
+    time_zone= models.CharField(max_length=255, default="", blank=True)
+    group= models.CharField(max_length=255, default="", blank=True)
+    job_title= models.CharField(max_length=255, default="", blank=True)
+    bar_no= models.CharField(max_length=255, default="", blank=True)
+    
+    # contact Info
+    street = models.CharField(max_length=255, default="", blank=True)
+    suite = models.CharField(max_length=255, default="", blank=True)
     city = models.CharField(max_length=255, default="", blank=True)
+    state= models.CharField(max_length=255, default="", blank=True)
+    zip = models.CharField(max_length=255, default="", blank=True)
+    ext =  models.CharField(max_length=255, default="", blank=True)
+    mobile = models.CharField(max_length=255, default="", blank=True)
+    home = models.CharField(max_length=255, default="", blank=True)
+    work_no = models.CharField(max_length=255, default="", blank=True)
+    phone_ext = models.CharField(max_length=255, default="", blank=True)
+    
+    # other settings
     language = models.CharField(max_length=255, default="", blank=True)
     locate = models.BooleanField(default=False)
     search_active = models.BooleanField(default=False)
@@ -44,46 +60,13 @@ class Profile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.username
-
-class Member(models.Model):
-    user = models.ForeignKey(UserAccount, on_delete=models.CASCADE, related_name="member", blank=True, null=True)
-    first_name= models.CharField(max_length=255, default="", blank=True)
-    middle_name= models.CharField(max_length=255, default="", blank=True)
-    last_name= models.CharField(max_length=255, default="", blank=True)
-    p_email= models.EmailField(max_length=255, default="",blank=True, null=True)
-    role= models.CharField(max_length=255, default="", blank=True)
-    c_email= models.EmailField(max_length=255, default="",blank=True, null=True)
-    rate= models.CharField(max_length=255, default="",blank=True, null=True)
-    time_zone= models.CharField(max_length=255, default="", blank=True)
-    group= models.CharField(max_length=255, default="", blank=True)
-    job_title= models.CharField(max_length=255, default="", blank=True)
-    bar_no= models.CharField(max_length=255, default="", blank=True)
-    
-    # contact Info
-    street= models.CharField(max_length=255, default="", blank=True)
-    suite= models.CharField(max_length=255, default="", blank=True)
-    city= models.CharField(max_length=255, default="", blank=True)
-    state= models.CharField(max_length=255, default="", blank=True)
-    zip =models.CharField(max_length=255, default="", blank=True)
-    ext=  models.CharField(max_length=255, default="", blank=True)
-    mobile= models.CharField(max_length=255, default="", blank=True)
-    home= models.CharField(max_length=255, default="", blank=True)
-    work_no= models.CharField(max_length=255, default="", blank=True)
-    phone_ext= models.CharField(max_length=255, default="", blank=True)
+        return self.first_name + " " + self.last_name
 
 
+# Group 
 class Group(models.Model):
     name = models.CharField(max_length=250, unique=True)
     
     def __str__(self):
         return self.name
-
-
-# class Task(models.Model):
-#     date = models.CharField(max_length=250, unique=True)
-#     time = models.CharField(max_length=250, unique=True)
-#     user = models.CharField(max_length=250, unique=True)
-#     task = models.CharField(max_length=250, unique=True)
-#     status = models.CharField(max_length=250, unique=True)
 

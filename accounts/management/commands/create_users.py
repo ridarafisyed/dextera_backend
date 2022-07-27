@@ -1,6 +1,6 @@
 
 from django.core.management import BaseCommand
-from core.models.profile import Member
+from core.models.profile import Profile
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -32,22 +32,22 @@ class Command(BaseCommand):
         print("Creating {}".format(u5))
         u5.save
 
-        m1 = Member.objects.create(user=u1, first_name="Sherlock", last_name="Holmes", c_email="firm1@firm1.com", group="firm", role="Director")
+        m1 = Profile.objects.create(user=u1, first_name="Sherlock", last_name="Holmes", c_email="firm1@firm1.com", group="firm", role="Director")
         print("Creating {}".format(u1))
         m1.save
 
-        m2 = Member.objects.create(user=u2, first_name="Mycroft", last_name="Holmes", c_email="firm2@firm2.com",  group="firm", role="Director")
+        m2 = Profile.objects.create(user=u2, first_name="Mycroft", last_name="Holmes", c_email="firm2@firm2.com",  group="firm", role="Director")
         print("Creating {}".format(u2))
         m2.save
        
-        m3 = Member.objects.create(user=u3, first_name="John", last_name="Watson", c_email="lawyer1@firm1.com", group="lawyer", role="Sr. Atterney")
+        m3 = Profile.objects.create(user=u3, first_name="John", last_name="Watson", c_email="lawyer1@firm1.com", group="lawyer", role="Sr. Atterney")
         print("Creating {}".format(u3))
         m3.save
 
-        m4 = Member.objects.create(user=u4, first_name="Greg", last_name="Lestrade", c_email="lawyer2@firm2.com", group="lawyer", role="Sr. Atterney")
+        m4 = Profile.objects.create(user=u4, first_name="Greg", last_name="Lestrade", c_email="lawyer2@firm2.com", group="lawyer", role="Sr. Atterney")
         print("Creating {}".format(u4))
         m4.save
 
-        m5 = Member.objects.create(user=u5, first_name="James", last_name="Moriarty", c_email="user@firm2.com", group="client", role="")
+        m5 = Profile.objects.create(user=u5, first_name="James", last_name="Moriarty", c_email="user@firm2.com", group="client", role="")
         print("Creating {}".format(u5))
         m5.save

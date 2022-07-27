@@ -1,9 +1,26 @@
 from rest_framework import serializers
-from ..models.profile import Member, Profile, Group
+from ..models.profile import Profile, Group
 from django.contrib.auth import get_user_model
  
 User = get_user_model()
 
+class UpdateProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields =  ('id',
+                    'first_name',
+                    'middle_name',
+                    'last_name',
+                    'p_email',
+                    'home',
+                    'mobile',
+                    'street',
+                    'suite',
+                    'city',
+                    'state',
+                    'zip',
+                    'ext',
+                   )
 
 class ProfileShortSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,18 +30,19 @@ class ProfileShortSerializer(serializers.ModelSerializer):
                     'first_name',
                     'last_name',
                     'role',
-                    'email',
+                    'c_email',
                    )
 
 
 class ProfileSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='user.username', read_only=True)
     class Meta:
         model = Profile
         fields =  ('id',
                     'username',
-                    'email',
+                    'c_email',
                     'mobile',
-                    'phone',
+                    'home',
                     'state',
                     'city',
                     'language',
@@ -45,10 +63,10 @@ class ProfileSerializer(serializers.ModelSerializer):
                     'past_bar_companies_no',
                     'primary_area',)
 
-
+# Create new Member serializer 
 class CreateMemberSerializer(serializers.ModelSerializer):
     class Meta:
-        model= Member
+        model= Profile
         fields = (
             "id", 
             "first_name",
@@ -73,13 +91,14 @@ class CreateMemberSerializer(serializers.ModelSerializer):
             "work_no",
             "phone_ext",
         )
-       
+
+# Member serializers
 class MembersSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', read_only=True)
     last_login = serializers.CharField(source='user.last_login', read_only=True)
     is_active = serializers.CharField(source='user.is_active', read_only=True)
     class Meta:
-        model = Member
+        model = Profile
         fields =  (
             "id",
             'username',
@@ -114,9 +133,10 @@ class MembersSerializer(serializers.ModelSerializer):
             user.set_password(password)
             user.save()
             
-            member = Member.objects.create(validated_data)
+            member = Profile.objects.create(validated_data)
             return member
 
+# Group serializer
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group

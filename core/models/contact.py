@@ -4,7 +4,6 @@ from django.db import models
 # it contain company data 
 # 
 class Contact(models.Model):
-   
     company_name = models.CharField(max_length=255, default="", blank=True) 
     webiste = models.CharField(max_length=255, default="", blank=True)
     ger_email = models.EmailField(max_length=255, default="", blank=True)

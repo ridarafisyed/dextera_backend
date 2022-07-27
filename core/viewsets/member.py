@@ -1,4 +1,4 @@
-from ..models.profile import  Member
+from ..models.profile import Profile
 
 from rest_framework import generics, permissions 
 from rest_framework.views import APIView
@@ -13,15 +13,15 @@ from django.views.decorators.csrf import csrf_exempt
 
 @method_decorator(csrf_exempt, name='dispatch')
 class ListMembersView(generics.ListAPIView):
-    queryset = Member.objects.all()
+    queryset = Profile.objects.all()
     serializer_class = MembersSerializer
 
 @method_decorator(csrf_exempt, name='dispatch')
 class UpdateMemberView(generics.RetrieveUpdateAPIView):
-    queryset = Member.objects.all()
+    queryset = Profile.objects.all()
     serializer_class = MembersSerializer
 
 @method_decorator(csrf_exempt, name='dispatch')
 class DeleteMemberView(generics.RetrieveDestroyAPIView):
-    queryset = Member.objects.all()
+    queryset = Profile.objects.all()
     serializer_class = MembersSerializer

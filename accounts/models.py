@@ -17,18 +17,16 @@ class UserAccountManager(BaseUserManager):
             raise ValueError('Users must have an email address')
         
         email = self.normalize_email(email)
-        user = self.model(username=username, first_name= first_name, last_name=last_name, email=email)
-       
-
+        user = self.create(username=username, first_name= first_name, last_name=last_name, email=email)
+        user.domain = email.split('@')[1]
         user.set_password(password)
-        
         user.save()
 
         return user
     
     def create_superuser(self,username, first_name, last_name, email, password):
         user = self.create_user(username, first_name, last_name, email, password)
-
+        user.domain = email.split('@')[1]
         user.is_superuser = True
         user.is_active = True
         user.is_staff = True
@@ -36,9 +34,20 @@ class UserAccountManager(BaseUserManager):
         user.save()
 
         return user
-    
+
+    def create_firm(self, username, first_name, last_name, email, password):
+        user = self.create_user(username, first_name, last_name, email, password) 
+        user.domain = email.split('@')[1]
+        user.is_firm = True
+        user.is_active = True
+        user.save()
+
+        return user
+
+
     def create_firm_employee(self, username, first_name, last_name, email, password):
         user = self.create_user(username, first_name, last_name, email, password) 
+        user.domain = email.split('@')[1]
         user.is_firm_employee = True
         user.save()
 
@@ -46,7 +55,7 @@ class UserAccountManager(BaseUserManager):
 
     def create_client(self, username, first_name, last_name, email, password):
         user = self.create_user(username, first_name, last_name, email, password)
-           
+        user.domain = email.split('@')[1]
         user.is_client = True
         user.save()
 
@@ -59,8 +68,14 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
+    # owner of the firm 
+    is_firm = models.BooleanField(default=False)
+    # worker of the firm 
     is_firm_employee = models.BooleanField(default=False)
+    # client of the firm 
     is_client = models.BooleanField(default = False)
+    
+    domain = models.CharField(max_length=100)
     
     objects = UserAccountManager()
 
@@ -75,7 +90,6 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     
     def __str__(self):
         return self.email
-
 
 
 
