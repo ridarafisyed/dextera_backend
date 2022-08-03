@@ -50,13 +50,26 @@ class GetFirmDetailViewSet(viewsets.ReadOnlyModelViewSet):
     ]
     serializer_class = GetFirmAccountSerializer
 
-    def get_object(self):
-        pk = self.kwargs.get('pk')
 
-        if pk == "current":
-            return self.request.user
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+        queryset = Firm.objects.all()
+        user = self.request.query_params.get('user')
+        
+        if user is not None:
+            queryset = Firm.objects.filter(owner=user )
+        return queryset
 
-        return super(GetFirmDetailViewSet, self).get_object()
+    # def get_object(self):
+    #     pk = self.kwargs.get('pk')
+
+    #     if pk == "current":
+    #         return self.request.user
+
+    #     return super(GetFirmDetailViewSet, self).get_object()
 
 class GetFirmSummaryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Firm.objects.all()
@@ -101,6 +114,7 @@ class FirmAccountViewset(viewsets.ModelViewSet):
     queryset = Firm.objects.all()
     serializer_class = CreateFirmAccountSerializer
     permission_classes = [permissions.AllowAny]
+
 
 class GetFirmAccountViewset(viewsets.ModelViewSet):
     queryset = Firm.objects.all()

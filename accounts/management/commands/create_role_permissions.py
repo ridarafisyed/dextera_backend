@@ -57,10 +57,13 @@ class Command(BaseCommand):
                 for perm in PERMISSIONS_ALL:
                     permission= FunctionPermissions.objects.create(role = new_role, func = func, name = perm)
                     permission.save()
+                    name = "permission -- {} function -- {} with role -- {}".format(perm, func, role_name)
+                    print("Creating {}".format(name))
                 if item == "Contact":
                     for c_perm in PERMISSIONS_CONTACT:
                         c_permission, create = FunctionPermissions.objects.get_or_create(role = new_role, func = func, name = c_perm)
+                        name = "permission -- {} function -- {} with role -- {}".format(perm, func, role_name)
+                        print("Creating {}".format(name))
                             
-                name = "permission -- {} function -- {} with role -- {}".format(perm, func, role_name)
-                print("Creating {}".format(name))
+                
         

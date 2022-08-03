@@ -1,8 +1,9 @@
 from django.urls import path, include
-from .viewsets import CreateUserViewset, GroupAPI, RegisterAPI,ListPermissionsView,ListRolesView,GetRoleView,UpdateRoleView, UpdatePermissionView, IsActiveUserAPI, LoginAPI, UserAPI,CreateClientAPI, CreateFirmEmployeeAPI, RoleAPI, UserListAPI, PermissionsAPI, RolePermissionAPI, UserRoleAPI
-from .viewset.role import DeleteRoleView, RolesCreate, RolesListView, RolesCreateView, SingleRoleView
-from .viewset.role import RoleFunctionsListView, SingleRoleFunctionView, DeleteRoleFunctionView,RoleFunctionsCreateView
-from .viewset.role import RoleFunctionPermissionCreateView,RoleFunctionPermissionsListView,DeleteRoleFunctionPermissionView,SingleRoleFunctionPermissionView
+from .viewset.account import UserListFiveAPI, CreateUserViewset, RegisterAPI, LoginAPI, UserAPI,CreateClientAPI, CreateFirmEmployeeAPI, UserListAPI, IsActiveUserAPI
+from .viewset.role import  GroupAPI,ListPermissionsView,ListRolesView,GetRoleView,UpdateRoleView, UpdatePermissionView, PermissionsAPI, RolePermissionAPI, UserRoleAPI
+from .viewset.role import DeleteRoleView, RolesCreate, RolesListView, RolesCreateView,RoleCategoryFunctionViewset, SingleRoleView,RoleFunctionsViewset,RoleCategoryViewset,RoleCategoriesViewset, RoleCategoryViewset
+from .viewset.role import RoleFunctionsListView, RoleAPI, SingleRoleFunctionView, DeleteRoleFunctionView,RoleFunctionsCreateView
+from .viewset.role import RoleCategoryFilterViewset, RoleFunctionPermissionCreateView,RoleFunctionPermissionsListView,DeleteRoleFunctionPermissionView,SingleRoleFunctionPermissionView
 from knox import views as knox_views
 
 from rest_framework import routers
@@ -10,17 +11,22 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 
 router.register('auth/roles', RoleAPI, "roles"),
+# router.register('auth/role-categories', RoleCategoryViewset, "role-categories")
+router.register('auth/category-functions', RoleCategoryFunctionViewset, "category-functions"),
+router.register('auth/role-functions', RoleFunctionsViewset, "role-functions"),
 router.register('auth/create-user-member',CreateUserViewset, "create-user-member"),
-router.register('auth/users-list', UserListAPI, "users_list")
-router.register('auth/users-role-list', UserRoleAPI, "users_role_list")
-router.register('auth/permissions', PermissionsAPI, "permissions")
-router.register('auth/role-permissions', RolePermissionAPI, "role_permissions")
-router.register('auth/groups', GroupAPI, "group")
-router.register('auth/is-active-user', IsActiveUserAPI, "is_active_user")
-router.register('auth/register-client', CreateClientAPI, "register-client" )
+router.register('auth/users-list', UserListAPI, "users_list"),
+router.register('auth/users-list-five', UserListFiveAPI, "users_list-five"),
+router.register('auth/users-role-list', UserRoleAPI, "users_role_list"),
+router.register('auth/permissions', PermissionsAPI, "permissions"),
+router.register('auth/role-permissions', RolePermissionAPI, "role_permissions"),
+router.register('auth/groups', GroupAPI, "group"),
+router.register('auth/is-active-user', IsActiveUserAPI, "is_active_user"),
+router.register('auth/register-client', CreateClientAPI, "register-client" ),
 router.register('auth/register-firm-employee', CreateFirmEmployeeAPI, "register_firm_employe"),
 router.register('role-create', RolesCreate, "role_create"),
-
+router.register("role-cat-filter",  RoleCategoryFilterViewset, "role-cat-filter"),
+router.register("auth/role-categories",RoleCategoriesViewset, "role-categories"),
 
 
 urlpatterns = router.urls + [
@@ -30,6 +36,9 @@ urlpatterns = router.urls + [
   path('auth/login', LoginAPI.as_view()),
   path('auth/user', UserAPI.as_view()),  
   path('auth/logout', knox_views.LogoutView.as_view(), name='knox_logout'),
+
+  path("auth/role-category/<int:pk>/",RoleCategoryViewset.as_view()),
+  
 
   path('permissions-list/', ListPermissionsView.as_view()),
   path('permission-update/<int:pk>/', UpdatePermissionView.as_view()),
@@ -41,7 +50,9 @@ urlpatterns = router.urls + [
 
   path('role-single-view/<int:pk>/', SingleRoleView.as_view()),
   path('role-delete-view/<int:pk>/', DeleteRoleView.as_view()),
+  # path('role/category-functions/', RoleCategoryFunctionViewset, "category-functions"),
   path('role-list/', RolesListView.as_view()),
+  
 
   path('role-function-create/', RoleFunctionsCreateView.as_view()),
   path('role-function-list/', RoleFunctionsListView.as_view()),

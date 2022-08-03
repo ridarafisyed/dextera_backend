@@ -10,7 +10,6 @@ class Role(models.Model):
     def __str__(self):
         return self.name
 
-
 class UserAccountManager(BaseUserManager):
     def create_user(self,username, first_name, last_name, email, password=None):
         if not email:
@@ -91,8 +90,6 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
-
-
 class Permissions(models.Model):
     role =  models.ForeignKey(Role, related_name="permissions", on_delete=models.CASCADE)
     role_category = models.CharField(max_length=255, null=True, blank= True)
@@ -108,10 +105,16 @@ class Permissions(models.Model):
 
     def __str__(self):
         return self.name
+class RoleCategory(models.Model):
+    name = models.CharField(max_length=255)
+    
+    class Meta:
+        ordering = ['id']
 
 class RoleFunctions(models.Model):
     role = models.ForeignKey(Role, on_delete=models.CASCADE, related_name="role_functions")
-    name = models.CharField(max_length=100)
+    category = models.ForeignKey(RoleCategory, on_delete=models.CASCADE, related_name="category_function")
+    name = models.CharField(max_length=255)
     
     class Meta:
         ordering = ['id']
@@ -130,10 +133,8 @@ class FunctionPermissions(models.Model):
     def __str__(self):
         return self.name
 
-    
-
-
 class UserRole(models.Model):
     user = models.ForeignKey(UserAccount, verbose_name="user", on_delete=models.CASCADE)
     role = models.ForeignKey(Role, verbose_name="role", on_delete=models.CASCADE)
+
 
