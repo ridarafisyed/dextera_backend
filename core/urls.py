@@ -1,6 +1,8 @@
 
 from  django.urls import path
 
+from core.viewsets.finance import FinanceAccountViewsets, TransactionHistoryViewsets
+
 from .viewsets.address import StateViewset,CountyViewset,CityViewset,ZipCodeViewset,SelectCountyViewset
 from .viewsets.contact import ContactViewset
 from .viewsets.ledger import NewLedgerTimeViewset
@@ -28,6 +30,12 @@ router.register('get-bill-add-reg', GetBillingAddressViewset, 'get-bill-add')
 router.register('payment-info-reg', PaymentInfoViewset, 'payment-info-reg')
 router.register('bill-add-reg', BillingAddressViewset, 'bill-add-reg')
 router.register('upload-logo', UploadFirmLogoViewset, 'upload-logo')
+
+# finance Urls 
+router.register('finance-account', FinanceAccountViewsets, "finance=accout") 
+router.register('transation-history', TransactionHistoryViewsets, "transaction-history")
+
+
 
 router.register('profile-reg', ProfileRegViewSet, 'profile-reg')
 router.register('firm-detail', GetFirmDetailViewSet, 'firm-detail')
