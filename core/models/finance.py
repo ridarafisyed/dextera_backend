@@ -1,22 +1,28 @@
 from django.db import models
 
 from django.contrib.auth import get_user_model
-
+from accounts.models import UserAccount
 from .firm import Firm
 
 User = get_user_model()
-TRANS_CHOICES = [
-    ("cd", 'Credit'),
-    ("db", 'Debit'),
-   
-]
+
+
+class FinanceAccount(models.Model):
+    owner = models.OneToOneField(UserAccount, on_delete=models.CASCADE, related_name="firm", blank=True, null=True)
+    balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
 # it keeps the record of transactions of each user and return revenue in and revenue out 
 class TransactionHistory(models.Model):
-    to = models.ForeignKey(Firm, on_delete=models.DO_NOTHING, related_name="transaction_to", blank=True, null=True)
+    to = models.ForeignKey(FinanceAccount, on_delete=models.DO_NOTHING, related_name="transaction_to", blank=True, null=True)
     amount = models.DecimalField()
-    by = models.ForeignKey(User,  on_delete=models.DO_NOTHING, related_name="transaction_by", blank=True, null=True)
-    is_credit = models.BooleanField(default=0)
+    by = models.ForeignKey(FinanceAccount,  on_delete=models.DO_NOTHING, related_name="transaction_by", blank=True, null=True)
+
+    is_credit = models.BooleanField(default=False)
+    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -28,3 +34,4 @@ class TransactionHistory(models.Model):
 
     def __str__(self):
         return self.user.username
+

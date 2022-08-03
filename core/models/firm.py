@@ -23,7 +23,7 @@ class Firm(models.Model):
     c_state= models.CharField(max_length=255, null=True, blank=True)
     c_zip= models.CharField(max_length=255, null=True, blank=True)
     c_ext= models.CharField(max_length=255, null=True, blank=True)
-
+    is_created= models.BooleanField(default=False)
     # timestemps
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -55,6 +55,7 @@ class PaymentInfo(models.Model):
     card_no =  models.CharField(max_length=255, null=True, blank=True)
     security_id = models.CharField(max_length=255, null=True, blank=True)
     expire_date = models.DateField( null=True, blank=True)
+    is_created= models.BooleanField(default=False)
 
     # timestemps
     created_at = models.DateTimeField(auto_now_add=True)
@@ -74,6 +75,8 @@ class BillingAddress(models.Model):
     state= models.CharField(max_length=255, null=True, blank=True)
     zip= models.CharField(max_length=255, null=True, blank=True)
     ext= models.CharField(max_length=255, null=True, blank=True)
+
+    is_created= models.BooleanField(default=False)
     
     # timestemps
     created_at = models.DateTimeField(auto_now_add=True)
