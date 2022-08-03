@@ -60,14 +60,16 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         start_time = timezone.now()
         with open("permissions.csv", "r") as csv_file:
+            
             data = list(csv.reader(csv_file, delimiter=","))
-
+         
             for role_name in ROLES:
                 new_role = Role.objects.create(name=role_name)
                 
                 for row in data[1:]:
-                    category, create = RoleCategory.objects.get_or_create(name= row[1] )            
-                    func= RoleFunctions.objects.create(name = row[0], category=category,role=new_role)
+                    category, create = RoleCategory.objects.get_or_create(name=row[1] )
+                    category.save()            
+                    func= RoleFunctions.objects.create(role=new_role, category=category, name = row[0])
                     func.save()
                     for perm in PERMISSIONS_ALL:
                         permission= FunctionPermissions.objects.create(role = new_role, func = func, name = perm)
