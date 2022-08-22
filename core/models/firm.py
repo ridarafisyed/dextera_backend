@@ -11,7 +11,7 @@ def upload_to(instance, filename):
 class Firm(models.Model):
     owner = models.OneToOneField(UserAccount, on_delete=models.CASCADE, related_name="firm", blank=True, null=True)
     logo =  models.ImageField(upload_to="firm_logos", default= 'logos/default_logo.png', null=True, blank=True)
-    c_name= models.CharField(max_length=255, null=True, blank=True)
+    c_name= models.CharField(max_length=255, null=True, blank=True, default="")
     dba_name= models.CharField(max_length=255, null=True, blank=True)
     tax_id= models.CharField(max_length=255, null=True, blank=True)
     tax_id_ext= models.CharField(max_length=255, null=True, blank=True)

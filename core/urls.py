@@ -1,9 +1,8 @@
 
 from  django.urls import path
 
-from core.viewsets.finance import FinanceAccountViewsets, TransactionHistoryViewsets
+from core.viewsets.finance import FinanceAccountViewsets, IsSubscriptionViewset, SubscriptionViewset, TransactionHistoryViewsets
 
-from .viewsets.address import StateViewset,CountyViewset,CityViewset,ZipCodeViewset,SelectCountyViewset
 from .viewsets.contact import ContactViewset
 from .viewsets.ledger import NewLedgerTimeViewset
 from .viewsets.profile import ProfileList, CreateMemberViewset,  ProfileRegViewSet, MembersViewset, GetProfileViewSet, UpdateProfileViewSet
@@ -21,6 +20,8 @@ router = routers.DefaultRouter()
 router.register('profile', ProfileList, 'profile')
 router.register('update-profile', UpdateProfileViewSet, 'update-profile')
 router.register('get-profile', GetProfileViewSet, 'get-profile')
+router.register('get-subscription', SubscriptionViewset, 'get-subscription')
+router.register('is-subscription', IsSubscriptionViewset, 'is-subscription')
 
 # register firm 
 router.register('get-firm', GetFirmAccountViewset, 'get-profile')
@@ -36,16 +37,11 @@ router.register('finance-account', FinanceAccountViewsets, "finance=accout")
 router.register('transation-history', TransactionHistoryViewsets, "transaction-history")
 
 
-
 router.register('profile-reg', ProfileRegViewSet, 'profile-reg')
 router.register('firm-detail', GetFirmDetailViewSet, 'firm-detail')
 router.register('firm-summary', GetFirmSummaryViewSet, 'firm-summary')
 router.register('matter', MatterList, "matter")
-router.register('state', StateViewset, "state")
-router.register('county', CountyViewset, "sounty")
-router.register('city', CityViewset, "city")
-router.register('zip-code', ZipCodeViewset, "zip-code")
-router.register('select_county', SelectCountyViewset, "select-county")
+
 router.register('new-matter', NewMatterViewset, "new-matter")
 
 router.register('category', CategoryViewset, "category")
