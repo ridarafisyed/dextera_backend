@@ -10,7 +10,7 @@ class GetProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = ProfileShortSerializer
     permission_classes = [
-        permissions.IsAuthenticated,
+        permissions.AllowAny,
     ]
 
     def get_object(self):
