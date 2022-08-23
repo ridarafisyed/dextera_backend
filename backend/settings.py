@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 from datetime import timedelta
 import django_on_heroku
+import dj_database_url
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -51,20 +53,13 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
-    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    # 'PAGE_SIZE': 10
-    
+    'DEFAULT_PERMISSION_CLASSES':['rest_framework.permissions.AllowAny']
 }
-CSRF_TRUSTED_ORIGINS = [    
-    "localhost:3000",
-    "localhost:8000",
-]
-CSRF_COOKIE_HTTPONLY = True
 
 REST_KNOX = {
   'SECURE_HASH_ALGORITHM': 'cryptography.hazmat.primitives.hashes.SHA512',
   'AUTH_TOKEN_CHARACTER_LENGTH': 64,
-  'TOKEN_TTL': timedelta(hours=2),
+  'TOKEN_TTL': timedelta(hours=10),
   'USER_SERIALIZER': 'knox.serializers.UserSerializer',
   'TOKEN_LIMIT_PER_USER': None,
   'AUTO_REFRESH': False,
@@ -123,6 +118,8 @@ DATABASES = {
         'HOST': 'localhost'
     },
 }
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -160,27 +157,24 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'build/static')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-# URL used to access the media
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+CORS_ORIGIN_ALLOW_ALL = True
 
-# CORS_ORIGIN_ALLOW_ALL = True
-
-# CSRF_TRUSTED_ORIGINS = [
-#     "https://dextera-lawfirm.netlify.app",
-#     "https://dextera-lawfirm.herokuapp.com",
-#     "localhost:3000",
-#     "localhost:8000",
-# ]
-# CSRF_COOKIE_HTTPONLY = True
+CSRF_TRUSTED_ORIGINS = [
+    "https://dextera-lawfirm.netlify.app",
+    "https://dextera-lawfirm.herokuapp.com",
+    "localhost:3000",
+    "localhost:8000",
+]
+CSRF_COOKIE_HTTPONLY = True
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
