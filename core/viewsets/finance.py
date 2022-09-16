@@ -1,3 +1,4 @@
+from venv import create
 from rest_framework import viewsets, permissions
 from rest_framework import status
 from rest_framework.response import Response
@@ -5,10 +6,21 @@ from ..models.firm import Firm
 from core.models.finance import FinanceAccount, Subscription, TransactionHistory
 from core.serializers.finance import FinanceAccountSerializer, IsSubscriptionActiveSerializer, SubscriptionSerializer, TransactionHistorySerializer
 from accounts.models import UserAccount
+from django.db.models import Sum
+
+
 class FinanceAccountViewsets(viewsets.ModelViewSet):
     queryset = FinanceAccount.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = FinanceAccountSerializer
+
+    def get_queryset(self):
+    
+        queryset = Subscription.objects.all()
+        user = self.request.query_params.get('user')
+        if user is not None:
+            queryset = Subscription.objects.filter(user=user)
+        return queryset
 
 
 class IsSubscriptionViewset(viewsets.ModelViewSet):
@@ -31,14 +43,16 @@ class SubscriptionViewset(viewsets.ModelViewSet):
     
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        finacne = FinanceAccount.objects.get_or_create(owner = self.request.user.id)
+        user_finacne = FinanceAccount.objects.get(owner = self.request.user.id)
         admin = UserAccount.objects.get(is_superuser = True)
-        finacne = FinanceAccount.objects.get(owner = admin)
+        admin_finacne = FinanceAccount.objects.get(owner = admin)
 
         if serializer.is_valid():
             subscription = serializer.save()
             subscription.is_active = True
-            finacne.balance -= serializer.validated_data['amount']
+            # it will change the 
+            user_finacne.balance -= serializer.validated_data['amount']
+            admin_finacne.balance += serializer.validated_data['amount']
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
         else:
@@ -46,10 +60,6 @@ class SubscriptionViewset(viewsets.ModelViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def get_queryset(self):
-        """
-        Optionally restricts the returned purchases to a given user,
-        by filtering against a `username` query parameter in the URL.
-        """
         queryset = Subscription.objects.all()
         user = self.request.query_params.get('user')
         
@@ -61,4 +71,35 @@ class TransactionHistoryViewsets(viewsets.ModelViewSet):
     queryset = TransactionHistory.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = TransactionHistorySerializer
-    
+
+
+class GetRevenueViewset(viewsets.ReadOnlyModelViewSet):
+    queryset = TransactionHistory.objects.all()
+    permission_classes = [permissions.AllowAny] # change persmissions
+    serializer_class = TransactionHistorySerializer
+
+    def get_queryset(self):
+        queryset = TransactionHistory.objects.all()
+        user = self.request.query_params.get('user')
+        
+        if user is not None:
+            queryset = TransactionHistory.objects.filter(user=user)
+        return queryset
+
+    def retrieve(self, request, *args, **kwargs):
+        current_user = self.request.user.id
+        if current_user is not None:
+            current_balance = FinanceAccount.objects.get(owner = current_user)
+            revenueIn = TransactionHistory.objects.filter(to = current_user, is_credit = True).aggregate(Sum('amount'))
+            revenueOut = TransactionHistory.objects.filter(by = current_user, is_credit = True).aggregate(Sum('amount'))
+            expectedBalnace = TransactionHistory.objects.filter(by = current_user, is_credit = False).aggregate(Sum('amount'))
+
+            return Response({
+                "current_balance" : current_balance,
+                "revenueIn": revenueIn,
+                "revenueOut": revenueOut,
+                "expectedBalnace" : expectedBalnace,
+                "status": status.HTTP_200_OK
+                }) 
+
+        return super().retrieve(request, *args, **kwargs)

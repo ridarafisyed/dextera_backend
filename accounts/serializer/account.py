@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
+from core.models.finance import FinanceAccount
 from core.serializers.profile import CreateMemberSerializer, ProfileShortSerializer
 from core.serializers.firm import GetFirmAccountSerializer, GetPaymentInfoSerializer,GetBillingAddressSerializer, UploadFirmLogo
 from core.models.firm import Firm, PaymentInfo,BillingAddress
@@ -63,6 +64,8 @@ class RegisterSerializer(serializers.ModelSerializer):
     obj2.save()
     firm, create = Firm.objects.get_or_create(owner = user)
     firm.save()
+    finance, create = FinanceAccount.objects.get_or_create(owner = user)
+    finance.save()
     profile, create  = Profile.objects.get_or_create(user = user, first_name= validated_data['first_name'],last_name =validated_data['last_name'], c_email=validated_data['email'])
     profile.save()    
     return user

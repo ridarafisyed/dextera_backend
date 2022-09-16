@@ -6,7 +6,6 @@ from accounts.models import UserAccount
 class FinanceAccount(models.Model):
     owner = models.OneToOneField(UserAccount, on_delete=models.CASCADE, related_name="finance_account", blank=True, null=True)
     balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -35,12 +34,7 @@ class TransactionHistory(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def revenueIn(self):
-        pass
-
-    def revenueOut(self):
-        pass
-
     def __str__(self):
         return self.user.username
+
 

@@ -105,6 +105,7 @@ class Permissions(models.Model):
 
     def __str__(self):
         return self.name
+
 class RoleCategory(models.Model):
     name = models.CharField(max_length=255)
     
