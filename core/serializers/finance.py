@@ -33,8 +33,8 @@ class TransactionHistorySerializer(serializers.ModelSerializer):
             trans_by = UserAccount.objects.get(id = validated_data["by"])
             trans_to = UserAccount.objects.get(id = validated_data["to"])
             
-            account_to = FinanceAccount.objects.get(owner = trans_to)
-            account_by = FinanceAccount.objects.get(owner = trans_by)
+            account_by, create = FinanceAccount.objects.get_or_create(owner = validated_data["by"])
+            account_to, create = FinanceAccount.objects.get_or_create(owner = validated_data["to"])
 
             account_to.balance += amount
             account_to.save()

@@ -131,6 +131,7 @@ class UserListAPI(viewsets.ModelViewSet):
   serializer_class = UserListSerializer
 
 class UserListFiveAPI(viewsets.ModelViewSet):
+  # list of last 10 users 
   queryset = User.objects.all().order_by('-id')[:10]
   permission_classes = [
         permissions.AllowAny
@@ -141,7 +142,6 @@ class CreateUserViewset(viewsets.ModelViewSet):
   queryset = User.objects.all()
   permission_classes =[permissions.AllowAny]
   serializer_class= CreateUserSerializer
-
 
 
 class IsActiveUserAPI(viewsets.ModelViewSet):

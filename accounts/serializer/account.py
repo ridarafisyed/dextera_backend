@@ -81,7 +81,9 @@ class CreateFirmSerializer(serializers.ModelSerializer):
     user = User.objects.create_firm(validated_data['username'], validated_data['first_name'],validated_data['last_name'], validated_data['email'], validated_data['password'])
     group = "firm",
     role="Manager"
-    member  = Profile.objects.create(user = user, first_name= validated_data['first_name'],last_name =validated_data['last_name'], email=validated_data['email'], role=role, group=group)
+    finance, create = FinanceAccount.objects.get_or_create(owner = user)
+    finance.save()
+    member, create  = Profile.objects.get_or_create(user = user, first_name= validated_data['first_name'],last_name =validated_data['last_name'], email=validated_data['email'], role=role, group=group)
     member.save()
 
     return user
@@ -96,7 +98,9 @@ class CreateFirmEmployeeSerializer(serializers.ModelSerializer):
     user = User.objects.create_firm_employee(validated_data['username'], validated_data['first_name'],validated_data['last_name'], validated_data['email'], validated_data['password'])
     group = "firm",
     role="Jr. Atterney"
-    member  = Profile.objects.create(user = user, first_name= validated_data['first_name'],last_name =validated_data['last_name'], email=validated_data['email'], role=role, group=group)
+    finance, create = FinanceAccount.objects.get_or_create(owner = user)
+    finance.save()
+    member, create  = Profile.objects.get_or_create(user = user, first_name= validated_data['first_name'],last_name =validated_data['last_name'], email=validated_data['email'], role=role, group=group)
     member.save()
 
     return user
@@ -111,7 +115,9 @@ class CreateClientSerializer(serializers.ModelSerializer):
     user = User.objects.create_client(validated_data['username'], validated_data['first_name'],validated_data['last_name'], validated_data['email'], validated_data['password'])
     group = "client",
     role=""
-    member  = Profile.objects.create(user = user, first_name= validated_data['first_name'],last_name =validated_data['last_name'], email=validated_data['email'], role=role, group=group)
+    finance, create = FinanceAccount.objects.get_or_create(owner = user)
+    finance.save()
+    member,create  = Profile.objects.get_or_create(user = user, first_name= validated_data['first_name'],last_name =validated_data['last_name'], email=validated_data['email'], role=role, group=group)
     member.save()
     return user
 
