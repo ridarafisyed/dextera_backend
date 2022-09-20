@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from core.models.finance import FinanceAccount
+from core.models.finance import FinanceAccount, Subscription
 from core.serializers.profile import CreateMemberSerializer, ProfileShortSerializer
 from core.serializers.firm import GetFirmAccountSerializer, GetPaymentInfoSerializer,GetBillingAddressSerializer, UploadFirmLogo
 from core.models.firm import Firm, PaymentInfo,BillingAddress
@@ -57,15 +57,23 @@ class RegisterSerializer(serializers.ModelSerializer):
 
   def create(self, validated_data):    
     user = User.objects.create_firm(validated_data['username'], validated_data['first_name'],validated_data['last_name'], validated_data['email'], validated_data['password'])
-    
+    # when user register this whole list of things creates with user registerations 
+    # PaymentInfo with user one and default values 
     obj1, create = PaymentInfo.objects.get_or_create(user = user)
     obj1.save()
+ # Billing Address with user and default values 
     obj2, create = BillingAddress.objects.get_or_create(user = user)
     obj2.save()
+# because you only register as Firm so Firm with default values 
     firm, create = Firm.objects.get_or_create(owner = user)
     firm.save()
+# Finance Account with user and defalut values 
     finance, create = FinanceAccount.objects.get_or_create(owner = user)
     finance.save()
+# Subscription with default values
+    sub, create = Subscription.objects.get_or_create(user = user)
+    sub.save()
+    # Profile with default values 
     profile, create  = Profile.objects.get_or_create(user = user, first_name= validated_data['first_name'],last_name =validated_data['last_name'], c_email=validated_data['email'])
     profile.save()    
     return user

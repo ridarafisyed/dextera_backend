@@ -1,4 +1,3 @@
-from venv import create
 from rest_framework import viewsets, permissions
 from rest_framework import status
 from rest_framework.response import Response
@@ -22,8 +21,6 @@ class FinanceAccountViewsets(viewsets.ModelViewSet):
             queryset = FinanceAccount.objects.filter(owner=user)
         return queryset
 
-    
-
 
 class IsSubscriptionViewset(viewsets.ModelViewSet):
     queryset = Subscription.objects.all()
@@ -42,18 +39,27 @@ class SubscriptionViewset(viewsets.ModelViewSet):
     permission_classes= [permissions.AllowAny]
     serializer_class = SubscriptionSerializer
     
-    def post(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        user_finacne = FinanceAccount.objects.get_or_create(owner = self.request.user.id)
+        # accessing current user finance account 
+        user_finance = FinanceAccount.objects.get(owner = self.request.user.id)
+        
+        # accessing admin account and its finace account 
         admin = UserAccount.objects.get(is_superuser = True)
         admin_finacne = FinanceAccount.objects.get(owner = admin)
 
         if serializer.is_valid():
-            subscription = serializer.save()
-            subscription.is_active = True
+            current_user = self.request.user.id
+            plan = serializer.validated_data['plan']
+            cycle = serializer.validated_data['cycle']
+            amount = serializer.validated_data['amount']
+            is_active =True
+            sub = Subscription.objects.create(user=current_user, plan= plan, cycle=cycle, amount = amount, is_active= is_active)
+            sub.save()
+         
             # it will change the 
-            user_finacne.balance -= serializer.validated_data['amount']
-            admin_finacne.balance += serializer.validated_data['amount']
+            user_finance.balance -= amount
+            admin_finacne.balance += amount
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         
         else:
