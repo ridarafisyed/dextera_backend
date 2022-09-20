@@ -20,6 +20,7 @@ class IsSubscriptionActiveSerializer(serializers.ModelSerializer):
         fields =("user", "is_active")
 
 class TransactionHistorySerializer(serializers.ModelSerializer):
+    
     class Meta:
         model= TransactionHistory
         fields= ("id", # need to do a better job in transaction and bankaccount 
@@ -33,13 +34,12 @@ class TransactionHistorySerializer(serializers.ModelSerializer):
             trans_by = UserAccount.objects.get(id = validated_data["by"])
             trans_to = UserAccount.objects.get(id = validated_data["to"])
             
-            account_by, create = FinanceAccount.objects.get_or_create(owner = validated_data["by"])
-            account_to, create = FinanceAccount.objects.get_or_create(owner = validated_data["to"])
-
-            account_to.balance += amount
-            account_to.save()
-            account_by.balance -= amount
-            account_by.save()
+            account_by = FinanceAccount.objects.get(owner = trans_by)
+            print("here is the account by :", account_by)
+            account_to  = FinanceAccount.objects.get(owner = trans_to)
+            account_to.balance = account_to.balance +  amount
+            
+            account_by.balance = account_by.balance - amount
             transHistory = TransactionHistory.objects.create(
                 to = trans_to,
                 amount = amount ,
@@ -48,4 +48,4 @@ class TransactionHistorySerializer(serializers.ModelSerializer):
                 )
             transHistory.save()
 
-        
+

@@ -91,6 +91,7 @@ class RevenueInViewsets(viewsets.ModelViewSet):
     queryset = TransactionHistory.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = TransactionHistorySerializer
+
     def get_queryset(self):
         queryset = TransactionHistory.objects.all()
         user = self.request.query_params.get('user')
@@ -103,6 +104,7 @@ class RevenueOutViewsets(viewsets.ModelViewSet):
     queryset = TransactionHistory.objects.all()
     permission_classes = [permissions.AllowAny]
     serializer_class = TransactionHistorySerializer
+
     def get_queryset(self):
         queryset = TransactionHistory.objects.all()
         user = self.request.query_params.get('user')
@@ -113,32 +115,33 @@ class RevenueOutViewsets(viewsets.ModelViewSet):
 
 
 
-# class GetRevenueViewset(viewsets.ReadOnlyModelViewSet):
-#     queryset = TransactionHistory.objects.all()
-#     permission_classes = [permissions.AllowAny] # change persmissions
-#     serializer_class = TransactionHistorySerializer
+class GetRevenueViewset(viewsets.ModelViewSet):
+    queryset = FinanceAccount.objects.all()
+    permission_classes = [permissions.AllowAny] # change persmissions
+    serializer_class = FinanceAccountSerializer
 
-#     def get_queryset(self):
-#         queryset = TransactionHistory.objects.all()
-#         user = self.request.query_params.get('user')
+    def get_queryset(self):
+        queryset = FinanceAccount.objects.all()
+        user = self.request.query_params.get('user')
         
-#         if user is not None:
-#             queryset = TransactionHistory.objects.filter(to=user)
-#         return queryset
+        if user is not None:
+            queryset = TransactionHistory.objects.filter(to=user)
+        return queryset
 
-#     def retrieve(self, request, *args, **kwargs):
-#         current_user = self.request.user.id
-#         if current_user is not None:
-#             current_balance = FinanceAccount.objects.get(owner = current_user)
-#             revenueIn = TransactionHistory.objects.filter(to = current_user, is_credit = True).aggregate(Sum('amount'))
-#             revenueOut = TransactionHistory.objects.filter(by = current_user, is_credit = True).aggregate(Sum('amount'))
-#             expectedBalnace = TransactionHistory.objects.filter(by = current_user, is_credit = False).aggregate(Sum('amount'))
+    def retrieve(self, request, *args, **kwargs):
+        current_user = self.request.user.id
+        if current_user is not None:
+            current_balance = FinanceAccount.objects.get(owner = current_user)
 
-#             return Response({
-#                 "current_balance" : current_balance,
-#                 "revenueIn": revenueIn,
-#                 "revenueOut": revenueOut,
-#                 "expectedBalnace" : expectedBalnace,
-#                 "status": status.HTTP_200_OK
-#                 }) 
-#         return Response(status=status.HTTP_400_BAD_REQUEST)
+            revenueIn = TransactionHistory.objects.filter(to = current_user, is_credit = True).aggregate(Sum('amount'))
+            revenueOut = TransactionHistory.objects.filter(by = current_user, is_credit = True).aggregate(Sum('amount'))
+            expectedBalnace = TransactionHistory.objects.filter(by = current_user, is_credit = False).aggregate(Sum('amount'))
+
+            return Response({
+                "current_balance" : current_balance,
+                "revenueIn": revenueIn,
+                "revenueOut": revenueOut,
+                "expectedBalnace" : expectedBalnace,
+                "status": status.HTTP_200_OK
+                }) 
+        return Response(status=status.HTTP_400_BAD_REQUEST)

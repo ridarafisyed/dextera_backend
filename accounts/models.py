@@ -29,9 +29,8 @@ class UserAccountManager(BaseUserManager):
         user.is_superuser = True
         user.is_active = True
         user.is_staff = True
-        
         user.save()
-
+        
         return user
 
     def create_firm(self, username, first_name, last_name, email, password):

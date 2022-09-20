@@ -1,7 +1,7 @@
 
 from  django.urls import path
 
-from core.viewsets.finance import FinanceAccountViewsets, IsSubscriptionViewset, RevenueInViewsets, RevenueOutViewsets, SubscriptionViewset, TransactionHistoryViewsets
+from .viewsets.finance import FinanceAccountViewsets, GetRevenueViewset, IsSubscriptionViewset, RevenueInViewsets, RevenueOutViewsets, SubscriptionViewset, TransactionHistoryViewsets
 
 from .viewsets.contact import ContactViewset
 from .viewsets.ledger import NewLedgerTimeViewset
@@ -18,10 +18,11 @@ router = routers.DefaultRouter()
 
 # register user 
 router.register('profile', ProfileList, 'profile')
-router.register('update-profile', UpdateProfileViewSet, 'update-profile')
-router.register('get-profile', GetProfileViewSet, 'get-profile')
-router.register('get-subscription', SubscriptionViewset, 'get-subscription')
-router.register('is-subscription', IsSubscriptionViewset, 'is-subscription')
+router.register('update-profile', UpdateProfileViewSet, 'update_profile')
+router.register('get-profile', GetProfileViewSet, 'get_profile')
+router.register('get-subscription', SubscriptionViewset, 'get_subscription')
+router.register('is-subscription', IsSubscriptionViewset, 'is_subscription')
+router.register('finance-summary', GetRevenueViewset, 'finance_summary')
 
 # register firm 
 router.register('get-firm', GetFirmAccountViewset, 'get-profile')
