@@ -9,6 +9,8 @@ from accounts.models import Group
 
 from core.models.profile import Profile
 
+
+
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -70,12 +72,14 @@ class RegisterSerializer(serializers.ModelSerializer):
 # Finance Account with user and defalut values 
     finance, create = FinanceAccount.objects.get_or_create(owner = user)
     finance.save()
-# Subscription with default values
-    sub, create = Subscription.objects.get_or_create(user = user)
-    sub.save()
+
     # Profile with default values 
     profile, create  = Profile.objects.get_or_create(user = user, first_name= validated_data['first_name'],last_name =validated_data['last_name'], c_email=validated_data['email'])
     profile.save()    
+
+    # Subscription with default values
+    sub, create = Subscription.objects.get_or_create(user = user)
+    sub.save()
     return user
 
 
