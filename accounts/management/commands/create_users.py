@@ -60,6 +60,7 @@ class Command(BaseCommand):
         m4 = Profile.objects.create(user=u4, first_name="Greg", last_name="Lestrade", c_email="lawyer2@firm2.com", group="lawyer", role="Sr. Atterney")
         print("Creating {}".format(u4))
         m4.save
+        
         sub4 = Subscription.objects.create(user = u4)
         print("Creating Subscription {}".format(sub4))
         sub4.save
