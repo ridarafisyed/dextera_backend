@@ -39,7 +39,7 @@ knox==0.1.14
 loguru==0.5.3
 MarkupSafe==2.0.1
 numpy==1.23.1
-oauthlib==3.1.1
+oauthlib==3.2.2
 openpyxl==3.0.10
 packaging==21.3
 pandas==1.4.3
